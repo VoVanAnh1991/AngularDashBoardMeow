@@ -1,0 +1,25 @@
+$white: white;
+$dark-main: #19303E;
+$mid-main: #355061; 
+$light-main: #77A5C1;
+$special-font: 'Brush Script MT', cursive;
+$option-hover: rgba($light-main, 40%);
+$text-header: #4527A0;
+$table-th: coral;
+
+.public-room {
+    margin: 10px 20px;
+
+    h1 {
+        font-family: $special-font;
+        margin-left: 10px;
+        color: $text-header;
+    }
+
+}
+
+.my-snack-bar {
+    padding: 20px;
+    color: coral;
+
+}

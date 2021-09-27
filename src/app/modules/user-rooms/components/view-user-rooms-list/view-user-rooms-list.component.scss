@@ -1,0 +1,66 @@
+$special-font: 'Brush Script MT', cursive;
+$text-header: #4527A0;
+$table-th: coral;
+$dark-main: #19303E;
+$mid-main: #355061; 
+$light-main: #77A5C1;
+
+.mat-elevation-z8 {
+    margin-top: 10px;
+}
+
+.mat-paginator {
+    background-color: transparent;
+}
+
+.mat-header-cell {
+    text-align: center;
+}
+
+.mat-cell {
+    text-align: center;
+}
+
+.mat-column-id, .mat-column-roomId, .mat-column-nickname, .mat-column-email {
+    width: 16%;
+}
+
+.mat-column-roomName {
+    padding: 10px 0;
+    width: 20%;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.mat-column-isGGUser{
+    width: 11%;
+}
+
+.mat-column-action, .mat-column-data_created, .mat-column-roomType{
+    width: 10%;
+}
+
+button {
+    margin: 8px;
+    margin-right: 0;
+}
+
+.mat-option {
+    color:coral;
+}
+
+.add-new-user-form {
+    margin: 10px 20px;
+
+    h1 {
+        font-family: $special-font;
+        margin-left: 10px;
+        color: $text-header;
+    }
+
+}
+
+.add-new-user-form .mat-form-field {
+    margin: 0px 20px;
+}

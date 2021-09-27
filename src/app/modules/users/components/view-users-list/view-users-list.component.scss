@@ -1,0 +1,57 @@
+$special-font: 'Brush Script MT', cursive;
+$text-header: #4527A0;
+$table-th: coral;
+$dark-main: #19303E;
+$mid-main: #355061; 
+$light-main: #77A5C1;
+
+.mat-elevation-z8 {
+    margin-top: 10px;
+}
+
+.mat-paginator {
+    background-color: transparent;
+}
+
+.mat-snack-bar {
+    color: coral !important;
+}
+
+.mat-header-cell, .mat-cell {
+    text-align: center;
+}
+
+.mat-column-id {
+    width: 17%;
+    .mat-icon {
+        font-size: 20px;
+    }
+}
+
+.mat-column-username, .mat-column-nickname, .mat-column-email {
+    width: 15%;
+}
+
+.mat-column-isGGUser, .mat-column-data_created, .mat-column-action {
+    width: 11%;
+}
+
+button {
+    margin: 8px;
+    margin-right: 0;
+}
+
+.add-new-user-form {
+    margin: 10px 20px;
+
+    h1 {
+        font-family: $special-font;
+        margin-left: 10px;
+        color: $text-header;
+    }
+
+}
+
+.add-new-user-form .mat-form-field {
+    margin: 0px 20px;
+}

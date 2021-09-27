@@ -1,0 +1,29 @@
+<div class="display-container">
+    <div class="display-container-cell">
+        <div class="auth-block">
+            <h3>Thank you for registering!</h3>
+            <div class="formGroup title">
+                <p class="emailSent">We have sent a <br> confirmation email to  </p>
+                <h1 class="emailAddress coral" >
+                    {{email}}
+                </h1>
+                <p class="emailSent info">Please check your inbox <br> and verify.</p>
+            </div>
+            
+            <div class="formGroup"> 
+                <button type="button" class="btn googleBtn"
+                (click)="authService.sendVerificationEmail()"
+                >Resend verification</button>
+            </div>
+            <div class="redirect-to-login">
+                <span>
+                    Email verified!<a routerLink="/login"> Sign In</a>
+                </span>
+                <br>
+                <span> Wrong mail?
+                    <a routerLink="/register"> Sign Up</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

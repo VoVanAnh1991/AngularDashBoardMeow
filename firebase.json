@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "meow-87eb6",
+    "public": "dist/dashboard",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

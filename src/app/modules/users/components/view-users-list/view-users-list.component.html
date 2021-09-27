@@ -1,0 +1,165 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="120px">
+    <div fxFlex="120" >
+        <div>
+            <div fxFlex="7">
+                <button mat-mini-fab
+                    *ngIf="!adding"
+                    (click)="onAddUser()" >
+                <mat-icon>add</mat-icon></button>
+                
+                <button mat-mini-fab color="primary"
+                    *ngIf="adding"
+                    (click)="onCancelAddUser()" >
+                <mat-icon>close</mat-icon></button>
+            </div>
+            
+            <mat-form-field *ngIf="!adding" color="warn"
+                            fxFlex="30" appearance="outline">
+                <mat-label>Searching</mat-label>
+                <input matInput #filter 
+                (keyup)="applyFilter($event.target.value)"
+                >
+                <button mat-icon-button matSuffix
+                *ngIf="filter.value"
+                (click)="filter.value=''; applyFilter('')"
+                ><mat-icon>close</mat-icon></button>
+            </mat-form-field>
+            
+            <mat-paginator (click)="editingId = ''; editing = false" fxFlex="120" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+            
+        </div>
+              
+        <div *ngIf="adding" >
+            <div class="add-new-user-form">
+                <form [formGroup] = "newUserForm"
+                    (ngSubmit) = "onSubmit()">
+                    <h1> Create New User </h1>
+                    <mat-form-field hintLabel="Max 20 characters" color="primary" appearance="outline">
+                      <mat-label>Enter username</mat-label>
+                      <input matInput maxlength="20" #username
+                            formControlName="username"
+                            placeholder="username">
+                      <mat-hint align="end">{{username.value?.length || 0}}/20</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field hintLabel="Max 20 characters" color="primary" appearance="outline">
+                      <mat-label>Enter new user's password</mat-label>
+                      <input matInput maxlength="20" #password
+                            formControlName="password"
+                            placeholder="password">
+                      <mat-hint align="end">{{password.value?.length || 0}}/20</mat-hint>
+                    </mat-form-field>
+                 
+                    <button mat-mini-fab color="accent"
+                        type="submit" >
+                    <mat-icon>check</mat-icon></button>
+                </form>
+            </div>
+        </div>
+
+        <div *ngIf="loading">
+            <app-spinner></app-spinner>
+        </div>
+        
+        <div class="mat-elevation-z8" *ngIf="!loading">
+            <div fxFlex="120" >
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="no">
+                        <th mat-header-cell *matHeaderCellDef> # </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.no }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>User Id</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div>{{element.id}}</div>
+                            <mat-icon *ngIf="onlineUsers.includes(element.id)" color="warn">account_circle</mat-icon>
+                            <mat-icon *ngIf="!onlineUsers.includes(element.id)">account_circle</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="username">
+                        <th mat-header-cell *matHeaderCellDef>Username</th>
+                        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="nickname">
+                        <th mat-header-cell *matHeaderCellDef> Nickname </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.id !== editingId">
+                                {{element.nickname}}
+                            </div>                            
+                            <div *ngIf="element.id === editingId">
+                                <mat-form-field>
+                                    <input matInput
+                                        [value]="element.nickname"
+                                        [(ngModel)]="element.nickname"
+                                    />
+                                </mat-form-field>
+                            </div>    
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.email }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="isGGUser">
+                        <th mat-header-cell *matHeaderCellDef> Created By</th>
+                        <td mat-cell *matCellDef="let element"> {{
+                            element.isAdmin? "Admin"
+                                : element.isGGUser? "Google" : "Manual"}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="data_created">
+                        <th mat-header-cell *matHeaderCellDef>Date Created</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.timestamp.toDate().toLocaleTimeString() }} 
+                            <br/>
+                            {{ element.timestamp.toDate().toLocaleDateString() }}
+                    </td>
+                    </ng-container>
+    
+                    <!-- Làm thêm button -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                        <td mat-cell *matCellDef="let element">
+    
+                            <button mat-mini-fab color="primary"
+                                [disabled]="onlineUsers.includes(element.id)"
+                                (click)="onEditUser(element.id)"
+                                *ngIf="(element.id!=editingId)"
+                            >
+                                <mat-icon>edit</mat-icon></button>
+    
+                            <button mat-mini-fab
+                                (click)="onSaveUser(element)"   
+                                *ngIf="(editing && element.id==editingId)"
+                            >
+                                <mat-icon>check</mat-icon>
+                            </button>
+                            
+                            <button mat-mini-fab color="primary"
+                                (click)="onCancel()"
+                                *ngIf="(editing && element.id==editingId)"
+                            >
+                                <mat-icon>close</mat-icon></button>
+    
+                            <button mat-mini-fab color="warn"
+                                [disabled]="onlineUsers.includes(element.id)"
+                                (click)="onDeleteUser(element.id)"
+                                *ngIf="(!editing || element.id!=editingId)"
+                            >
+                                <mat-icon>delete</mat-icon></button>
+    
+                        </td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns">
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns">
+                </table>
+            </div>            
+        </div>
+    </div>
+</div>

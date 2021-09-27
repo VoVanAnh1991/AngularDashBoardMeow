@@ -1,0 +1,18 @@
+mat-drawer-container {
+    height: calc(100% - 80px);
+}
+
+mat-drawer {
+    width: 230px;
+}
+
+mat-drawer-content {
+    padding: 20px;
+    margin: 0 auto;
+}
+
+:host {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

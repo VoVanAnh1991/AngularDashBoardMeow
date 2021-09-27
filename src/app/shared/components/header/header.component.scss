@@ -1,0 +1,28 @@
+$dark-main: #19303E;
+$mid-main: #355061; 
+$light-main: #77A5C1;
+
+ul li {
+    list-style: none;
+    align-content: center;
+}
+
+ul {
+    margin: 0;
+    display: flex;    
+}
+
+.mat-toolbar {
+    background-color: $mid-main;
+    border-bottom: 2px solid white;
+    display: flex;    
+    overflow: hidden;
+}
+
+.mat-toolbar-row {
+    height: 50px;
+}
+
+.mat-toolbar-multiple-rows {
+    min-height: 50px;
+}

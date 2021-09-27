@@ -1,0 +1,91 @@
+$white: white;
+$dark-main: #19303E;
+$mid-main: #355061; 
+$light-main: #77A5C1;
+$special-font: 'Brush Script MT', cursive;
+$option-hover: rgba($light-main, 40%);
+
+.body {
+    background-image: url('../../../../assets/images/Background.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    min-height: 100%;
+    * {
+        color: $white;
+    }
+}
+
+.mat-nav-list {
+    min-height: calc(100vh - 82px);
+    background-color: rgba(black, 50%);
+}
+
+.mat-icon {
+    color: white;
+    margin-right: 10px 20px;
+}
+
+.profile-card {
+    text-align: center;
+    padding: 0 20px 10px 20px;
+    color: white;
+    
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: 5px;
+    }
+
+    .header {
+        width: 100%;
+        text-align: center;
+        margin: 5px;
+        
+        h2 { 
+            word-break: break-word;
+            padding: 5px;
+            background-color: rgba($light-main, 40%);
+            border-radius: 20px;
+            font-family: $special-font;
+            font-weight: bold; 
+        }
+
+        span {
+            word-break: break-word;
+        }
+    }
+}
+
+.mat-list-item {
+    font-family: $special-font;
+    padding-left: 20px !important;
+
+    .mat-icon {
+        margin-right: 10px;
+    }
+}
+.mat-subheader {
+    text-decoration: underline wavy;
+    line-height: 40px;
+    // text-underline-position: under;
+    text-underline-offset: 4px;
+}
+
+.mat-list-item:hover, .mat-list-item:focus  {
+    background-color: $option-hover !important;
+    
+    .mat-icon {
+        color: $white;
+    }
+}
+
+.mat-divider {
+    border: 0.5px solid $white;
+    color: $white;
+}
+
+.list-item-active {
+    background-color: $option-hover;
+}

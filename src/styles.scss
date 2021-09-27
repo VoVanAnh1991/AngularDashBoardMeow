@@ -1,1 +1,231 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$white: white;
+$dark-main: #19303E;
+$mid-main: #355061; 
+$light-main: #77A5C1;
+$special-font: 'Brush Script MT', cursive;
+$option-hover: rgba($light-main, 40%);
+$text-header: #4527A0;
+$table-th: coral;
+// aquamarine salmonvava
+
+.coral {
+    color: coral;
+}
+
+.mat-table { 
+    width: 100%;
+}
+
+th {
+    background-color: rgba($mid-main, 90%);
+    font-size: 12pt !important;
+    font-weight: bold;
+    font-family: $special-font;
+    color: coral !important;
+    margin: 0;
+}
+
+.mat-column-no {
+    width: 5%;
+    color: $table-th;
+    font-weight: bold;
+}
+
+.title {
+    margin: auto;
+    position: relative;
+    height: fit-content;
+
+    .titleText {
+        overflow: hidden;
+        max-height: 120px;
+        font-family: 'Brush Script MT', cursive !important;
+        padding: 15px 0 0;
+        font-weight: bold;
+        word-break: break-all;
+
+       :-webkit-scrollbar {
+           width: 1px;
+       }
+    }
+    
+    .resetPasswordTitle {
+        margin-top: 100px;
+    }
+
+    .signUpTitle {
+        margin-top: 50px;
+    }
+    
+    .dashboardTitle {
+        position: absolute;
+        top: 70px;
+        right: 10%;
+        z-index: 2;
+        width: 200px;
+    }
+    
+    .logo {
+        z-index: 1;
+        top: 5px;
+        right: 50px;
+        width: 100px;
+    }
+}
+
+
+.display-container {
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 16px;
+    background-color: $mid-main;
+    background-image: url('./assets/images/Background.jpg');
+    background-position: center;
+    background-size: cover;
+    color: $dark-main;
+    outline: none;
+    padding: 15px 0;
+    display: table;
+    text-align: center;
+}
+
+.display-container-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.auth-block {
+    position: relative;
+    text-align: center;
+    background: $mid-main;
+    border: 10px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(black, 0.25);
+    border-radius: 20px;
+    width: 320px;
+    color: white;
+    padding: 20px;
+    margin: 0 auto;
+
+    span {
+        font-size: 10pt;
+    }
+    
+    a {
+        text-decoration: none !important;
+        color: aquamarine !important;
+        font-size: 11pt;
+    }
+    
+    a:hover {
+        color: salmon !important;
+    }
+}
+
+.display-container .btn {
+    font-family: 'Brush Script MT', cursive;
+    width: 75%;
+    font-size: 12pt;
+    background: $mid-main;
+    cursor: pointer;
+    outline: none;
+    border: 2px solid white;
+    padding: 4px;
+    border-radius: 99px;
+    margin: 5px;
+    color: $white;
+}
+
+.display-container .btn:hover {
+    border: 2px solid white;
+    background: salmon;
+    font-weight: bold;
+}
+
+.display-container .googleBtn {
+    background-color: $dark-main ;
+    margin-bottom: 10px;
+}
+
+.display-container .googleBtn {
+    background-color: $dark-main ;
+    margin-bottom: 10px;
+}
+
+.formGroup .btnPrimary {
+    margin-bottom: 0px;
+}
+
+.formGroup .signUpBtn {
+    margin-bottom: 5px;
+}
+
+.or {
+    text-align: center;
+    display: block;
+    color: $white;
+    font-size: 11pt;
+}
+
+.forgot-password .redirect-to-login {
+    text-align: center;
+    width: 100%;   
+}
+
+
+.formControl {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    border-radius: 30px;
+    display: block;
+    padding: 10px 15px;
+    border: 4px solid $mid-main;
+    outline: none;
+    font-size: 13pt;
+    background: #fcfcfc;
+    color: $dark-main;
+}
+
+.formControl::placeholder{
+    font-weight: normal;
+    color: $mid-main;
+}
+
+.formControl:focus {
+    border: 4px solid $light-main;
+}
+
+.formGroup {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.invalidAdminCode {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-weight: bold;
+    text-align: center;
+    background: $mid-main;
+    border: 10px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(black, 0.25);
+    border-radius: 20px;
+    width: 320px;
+    color: white;
+    padding: 20px;;
+    margin: auto;
+    
+    h1, h3 {
+        margin-bottom: 0;
+    }
+}
+
+.resetPasswordTitle .blank {
+    padding: 3px;
+}

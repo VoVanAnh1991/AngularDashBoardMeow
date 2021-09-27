@@ -1,0 +1,43 @@
+<div class="display-container">
+    <div class="display-container-cell">
+        <div class="auth-block">
+            <div class="title signUpTitle">
+                <img class="logo"
+                    src="assets/images/Logo.png"/>
+                <img class="dashboardTitle"
+                    src="assets/images/AdminDashboard.png"/>
+                <h1 class="titleText">Sign Up</h1>
+            </div>
+            <div class="formGroup">
+                <input type="text" 
+                class="formControl"
+                placeholder="email"
+                #email 
+                required    
+                >
+            </div>
+            <div class="formGroup">
+                <input 
+                type="password" 
+                class="formControl"
+                placeholder="password"
+                #password 
+                required
+                >
+            </div>
+            <div class="formGroup">
+                <button
+                type="button" 
+                class="btn signUpBtn"
+                required
+                (click)="authService.signUp(email.value, password.value)"
+                >Sign Up</button>
+            </div>
+            <div class="redirect-to-login">
+                <span> Have a account?
+                    <a routerLink="/login">Sign In!</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

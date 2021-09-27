@@ -1,0 +1,43 @@
+<div class="body">
+    <mat-nav-list>
+        <div class="profile-card">
+            <div class="header">
+                <h2>{{adminInfo.username}}</h2>
+                <span>{{adminInfo.email}}</span>
+            </div>
+            <img *ngIf="!adminInfo.avatar"
+                class="align-self-start img-thumbnail rouned-circle"
+                src="assets/images/AdminAvatar.png"/>
+            <img *ngIf="adminInfo.avatar"
+                class="align-self-start img-thumbnail rouned-circle"
+                src={{adminInfo.avatar}}/>
+        </div>
+    
+        <mat-divider></mat-divider>
+
+        <h2 matSubheader>Pages :</h2>
+        <a mat-list-item
+            routerLinkActive="list-item-active" routerLink="/dashboard"
+            [routerLinkActiveOptions]="{ exact: true }"
+        >Dashboard</a>
+        <a mat-list-item
+            routerLinkActive="list-item-active" routerLink="/users"
+        >Users</a>
+        <a mat-list-item
+            routerLinkActive="list-item-active" routerLink="/rooms"
+        >Public Rooms</a>
+        <a mat-list-item
+            routerLinkActive="list-item-active" routerLink="/user-rooms"
+        >User Rooms</a>
+        <a mat-list-item
+            routerLinkActive="list-item-active" routerLink="/tasks"
+        >Tasks</a>
+
+        <mat-divider></mat-divider>
+        
+        <h2 matSubheader>Others :</h2>
+        <a mat-list-item
+            routerLinkActive="list-item-active" routerLink="/option2"
+        > <mat-icon>group</mat-icon> Option 1</a>
+    </mat-nav-list>
+</div>

@@ -1,0 +1,69 @@
+<div class="display-container">
+    <div class="display-container-cell" >
+        <div class="auth-block" *ngIf="validCode">
+            <div class="title">
+                <img class="dashboardTitle"
+                    src="assets/images/AdminDashboard.png"/>
+                <img class="logo"
+                src="assets/images/Logo.png"/>
+            </div>
+            
+            
+            <div class="formGroup">
+                <input type="text" 
+                class="formControl"
+                placeholder="email"
+                #email
+                required
+                >
+            </div>
+            <div class="formGroup">
+                <input 
+                type="password" 
+                class="formControl"
+                placeholder="password"
+                #password 
+                required
+                >
+            </div>
+            <div class="formGroup">
+                <button
+                type="button" 
+                class="btn btnPrimary"
+                required
+                (click)="authService.signIn(email.value, password.value)"
+                >Sign In</button>
+            </div>
+            <div class="formGroup"> 
+                <span class="or">Or</span>
+                <button type="button" class="btn googleBtn"
+                (click)="authService.googleAuth()"
+                >Sign in with Google</button>
+            </div>
+            <div class="forgot-password">
+                <a routerLink="/forgot-password">Forgot Password</a>    
+            </div>
+            <div class="redirect-to-login">
+                <span> Don't have account? 
+                    <a routerLink="/register"> Sign Up?</a>
+                </span>
+            </div>
+        
+        </div>
+        <div class="invalidAdminCode" *ngIf="!validCode">
+            <div *ngIf="!thirdTime;then lessThan else isThird" ></div>
+            <ng-template #lessThan>
+                <div>
+                    <h1>Enter Admin code!</h1>
+                    <h3>You need to enter <br> Admin code to continue</h3>
+                </div>
+            </ng-template>
+            <ng-template #isThird>
+                <div>
+                    <h1>Invalid Admin Code!</h1>
+                    <h3>Refresh to try again!</h3>            
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
