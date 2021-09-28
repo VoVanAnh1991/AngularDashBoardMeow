@@ -22,9 +22,9 @@ import { ColumnComponent } from './widget/column/column.component';
 import { PolarAreaComponent } from './widget/polar-area/polar-area.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ViewDashboardListComponent } from '../modules/dashboard/components/view-dashboard-list/view-dashboard-list.component';
-import { MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
+import { MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatProgressBarModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 import { NotAssignedTasksComponent } from './widget/not-assigned-tasks/not-assigned-tasks.component';
-import { SpinnerComponent } from './widget/spinner/spinner.component';
+import { ProgressBarComponent } from './widget/progress-bar/progress-bar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule ({
@@ -39,7 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         ColumnComponent,
         PolarAreaComponent,
         NotAssignedTasksComponent,
-        SpinnerComponent,
+        ProgressBarComponent,
     ],
     imports: [
         CommonModule,
@@ -57,7 +57,6 @@ import { ReactiveFormsModule } from '@angular/forms';
         RouterModule,
         NgApexchartsModule,
         MatCheckboxModule,
-        MatProgressSpinnerModule,
         MatProgressBarModule,
         MatFormFieldModule,
         MatSelectModule,
@@ -75,7 +74,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         PieComponent,
         ColumnComponent,
         PolarAreaComponent,
-        SpinnerComponent,
+        ProgressBarComponent,
     ]
 })
 

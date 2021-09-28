@@ -11,14 +11,20 @@ import { ForgotPasswordComponent } from './modules/forgot-password/forgot-passwo
 import { SignUpComponent } from './modules/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './modules/verify-email/verify-email.component';
 import { ViewUserRoomsListComponent } from './modules/user-rooms/components/view-user-rooms-list/view-user-rooms-list.component';
+import { OptionShowInfoComponent } from './modules/rooms/components/option-show-info/option-show-info.component';
+import { OptionShowMessagesComponent } from './modules/rooms/components/option-show-messages/option-show-messages.component';
+import { OptionAnnouncementHistoryComponent } from './modules/rooms/components/option-announcement-history/option-announcement-history.component';
 
 const routes: Routes = [
   {
     path: '',
-    // component: DefaultComponent,
-    // component: ViewUsersListComponent,
+    component: DefaultComponent,
+    // component: OptionAnnouncementHistoryComponent,
+    // component: OptionShowMessagesComponent,
+    // component: OptionShowInfoComponent,
+    // component: ViewRoomsListComponent,
     // component: ViewUserRoomsListComponent,
-    component: ViewRoomsListComponent,
+    // component: ViewUsersListComponent,
    canActivate: [AuthGuard],
    children: [
      {

@@ -1,6 +1,6 @@
-$dark-main: #19303E;
-$mid-main: #355061; 
-$light-main: #77A5C1;
+$darkest: #19303E;
+$dark-main: #355061; 
+$light-main: #80CBC4;
 
 ul li {
     list-style: none;
@@ -13,7 +13,7 @@ ul {
 }
 
 .mat-toolbar {
-    background-color: $mid-main;
+    background-color: $dark-main;
     border-bottom: 2px solid white;
     display: flex;    
     overflow: hidden;

@@ -1,0 +1,48 @@
+$white: white;
+$darkest: #19303E;
+$dark-main: #355061; 
+$mid-main: DarkCyan;
+$light-main: #80CBC4;
+$special-font: 'Brush Script MT', cursive;
+$option-hover: rgba($light-main, 40%);
+$text-header: #4527A0;
+$table-no: $dark-main;
+$table-th: white;
+
+.change-info {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    .mat-icon-button {
+        margin-top: 10px;
+        margin-left: 10px;
+
+    }
+
+    .mat-form-field {
+        margin-left: 60px;
+    }
+}
+
+.public-room-info-table {
+    th {
+        width: 250px;
+        text-align: right;
+        padding: 5px 10px;
+        color: $mid-main !important;
+        background-color: transparent;    
+    }
+
+    td {
+        width: 250px;
+    }
+}
+
+.show-info {
+    position: relative;
+}
+
+.routing-btn {
+    position: absolute;
+}

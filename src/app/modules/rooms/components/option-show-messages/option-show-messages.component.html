@@ -1,0 +1,58 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="120px">
+    <div class="show-messages" fxFlex="120" >
+        <div *ngIf="loading">
+            <app-progress-bar></app-progress-bar>
+        </div>
+
+        <div class="routing-btn" *ngIf="!loading">
+            <div>
+                <a mat-list-item [routerLink]="'/rooms/show-info/'+roomId"
+                ><button mat-icon-button [ngStyle]="{color: 'teal'}">
+                    <mat-icon>info</mat-icon>
+                </button></a>
+            </div>
+            <div>
+                <a mat-list-item [routerLink]="'/rooms/history/'+roomId"
+                ><button mat-icon-button color="primary">
+                    <mat-icon>query_builder</mat-icon>
+                </button></a>
+            </div>
+        </div>
+
+        <div class="show-messages-body" fxFlex="120" *ngIf="!loading" >
+            <div class="info" fxFlex="120">
+                <h2 class="header-h2">{{roomInfo?.roomName}}</h2> 
+            </div>
+            <div class="info" fxFlex="120">
+                <h3 class="header-h3">
+                    <b>No of Messages:</b> {{roomMessages?.length}} - <b>No of Announcements:</b> {{noOfAnnouncements}}</h3>
+            </div>
+            <div class="messages" fxFlex="80">
+                <div class="messages-box">
+                    <div *ngFor="let message of roomMessages">
+                        <div [class]="message.userId=='AdminTeam'? 'admin-team message' : 'user message'">
+                            <p><b>{{message?.user}} - {{message?.timestamp.toDate().toLocaleString() }}</b></p>
+                            <p>{{message?.message? message?.message : message?.sticker}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input" fxLayout >            
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Annouce to Room</mat-label>
+                    <textarea [(ngModel)]="newAnnouncement" matInput placeholder="Make a new announcement"></textarea>
+                </mat-form-field>
+
+                <button mat-mini-fab class="submit-btn" color="warn"
+                (click)="onSubmit()" >
+                <mat-icon>add</mat-icon></button>
+                
+                <button mat-mini-fab class="delete-btn" color="warn"
+                (click)="onDeleteAllMessages()" >
+                <mat-icon>delete</mat-icon></button>
+            </div>
+
+        </div>
+    </div>
+</div>

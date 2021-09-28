@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { UserRoomsService } from 'src/app/services/user-rooms.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -10,6 +10,14 @@ import { UsersService } from 'src/app/services/users.service';
 })
 
 export class ViewUserRoomsListComponent implements OnInit {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  snackBarStyle = {
+    horizontalPosition: this.horizontalPosition,
+    verticalPosition: this.verticalPosition,
+    panelClass: ['my-snack-bar'],
+  }
+
   loading: boolean = true;
   lists : Array <any> = [];
   option: string;
@@ -21,13 +29,15 @@ export class ViewUserRoomsListComponent implements OnInit {
   ];
 
   deleting: boolean = false;
+  deletingId: string;
   deletingInfo: any;
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   
   constructor(
     public userRoomsService: UserRoomsService,
-    public usersService: UsersService
+    public usersService: UsersService,
+    private _snackBar: MatSnackBar
     
     ) { 
       this.usersService.getAllUsers().subscribe((result)=>{
@@ -41,6 +51,13 @@ export class ViewUserRoomsListComponent implements OnInit {
       })
     }
     
+    alertSnackBar(mess: string): void {   
+      this._snackBar.open(mess, null, {
+        duration: 3000,
+        ...this.snackBarStyle
+      });
+    }
+
     ngOnInit(): void {  
       this.userRoomsService.getAllUserRooms().subscribe((result)=>{
         this.lists = result.map((item, index)=>{         
@@ -60,7 +77,9 @@ export class ViewUserRoomsListComponent implements OnInit {
           this.lists[index] = {
             ...this.lists[index],
             roomMembers,
-            warning: roomMembers.includes(undefined)? 'warning' : '',
+            warning: roomMembers.includes(undefined)? 'warning' :  
+                  (this.lists[index].roomType == 'userFriends' 
+                    && roomMembers.length <2) ? 'warning' : ''
           };
         })
         
@@ -78,8 +97,27 @@ export class ViewUserRoomsListComponent implements OnInit {
   }
 
   onDeleteUserRoom(id: string){
-    confirm('Delete userRoom " ' + id + ' "') &&
-    this.userRoomsService.delete(id);
+    this.deletingInfo = null;
+    this.deleting = true;
+    this.deletingId = id;
+    this.deleteUserRoomSnackBar(`Delete room " ${id} "`, 'Delete',id) 
+  }
+  
+  deleteUserRoomSnackBar(mess: string, action: string, actionInfo: string): void {   
+    let snackBarRef = this._snackBar.open(mess, action, {
+      duration: 5000,
+      ...this.snackBarStyle,
+    });
+    snackBarRef.onAction().subscribe(() => {
+      this.userRoomsService.delete(actionInfo);
+    });
+    snackBarRef.afterDismissed().subscribe((info) => {
+      this.deleting = false;
+      this.deletingId = null;
+      info.dismissedByAction? 
+        this.alertSnackBar('Room is deleted.')
+        : this.alertSnackBar('Cancel deleting room.')
+    })
   }
 
   onOption(userId: string, username: string, roomInfo: any) {
@@ -89,15 +127,31 @@ export class ViewUserRoomsListComponent implements OnInit {
 
   onDeleteRoomMember(deletingInfo: any){
     let {roomInfo , userId, username } = deletingInfo;
-    if (confirm(`Remove " ${username? username : 'Deleted User'} ( ${userId} ) " off \nRoom " ${roomInfo.id} " ?` )) {
+    this.deleteRoomMemberSnackBar(
+      `Remove " ${username? username : 'Deleted User'} " (${userId}) out of room   " ${roomInfo.id} " ?`,
+      'Delete',
+      deletingInfo
+    )
+  }
+  
+  deleteRoomMemberSnackBar(mess: string, action: string, actionInfo: any): void {   
+    let snackBarRef = this._snackBar.open(mess, action, {
+      duration: 5000,
+      ...this.snackBarStyle,
+    });
+    snackBarRef.onAction().subscribe(() => {
+      let {roomInfo , userId } = actionInfo;
       let index = roomInfo.roomUserIds.indexOf(userId);
       roomInfo.roomUserIds.splice(index,1)
-      console.log(roomInfo.id)
-      console.log(roomInfo.roomUserIds)
       this.userRoomsService.removeRoomMember(roomInfo.id,roomInfo.roomUserIds);
+    });
+    snackBarRef.afterDismissed().subscribe((info) => {
       this.deleting = false;
-    }
-    else this.deleting = false;
+      this.deletingInfo = null;
+      info.dismissedByAction? 
+        this.alertSnackBar('User is removed out of room.')
+        : this.alertSnackBar('Cancel removing user out of room.')
+    })
   }
 }
 

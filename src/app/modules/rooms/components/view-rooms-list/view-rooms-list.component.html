@@ -1,6 +1,93 @@
-<div class="public-room">
-    <form>
-        <h1> Public Rooms </h1>
-    </form>
-    <button mat-stroked-button (click)="alertSnackBar('Hello','Confirm')">Show snack-bar</button>
+<div class="public-room" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="120px">
+    <div>
+        <h1 class="header-h1"> Public Rooms </h1> 
+        <div class="previous-route-btn-container" *ngIf="this.router.routerState.snapshot.url!='/rooms'">
+            <div class="previous-route-btn" >
+                <a mat-list-item (click)="this.router.navigate(['rooms/'])"   
+                ><button  mat-icon-button [ngStyle]="{color: '#355061'}">
+                    <mat-icon>backspace</mat-icon>
+                </button></a>
+            </div>
+        </div>
+        <div *ngIf="!loading">
+            <hr/>
+            <div *ngIf="this.router.routerState.snapshot.url=='/rooms'" class="section-action" >
+                <mat-form-field>
+                    <mat-label>Select A Room</mat-label>
+                    <mat-select [(value)]="selectedRoom">
+                        <!-- <mat-option>View All Public Rooms</mat-option> -->
+                        <ng-container *ngFor="let option of roomOptions">
+                            <mat-option [value]="option.index"
+                                color="warn"> {{option.roomName}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- <a mat-list-item routerLink="/all-public-rooms" [ngStyle]="{margin: '0px 0px 0px 10px'}"
+                    *ngIf="!selectedRoom&&selectedRoom!==0"
+                    ><button mat-raised-button color="warn">
+                       <span [ngStyle]="{padding: '0px 10px'}">View All Public Rooms</span>
+                    </button></a> -->
+
+                <div *ngIf="selectedRoom == addRoomOption.index">
+                    <mat-form-field>
+                        <mat-label >New Room Name</mat-label>
+                        <input matInput [(ngModel)]="newRoomName" >   
+                    </mat-form-field> 
+                    
+                    <button mat-raised-button color="primary"
+                    [disabled]="!newRoomName || allRoomNames.includes(newRoomName)"    
+                    (click)="addRoom(newRoomName)" >
+                    <mat-icon>add</mat-icon></button>
+                </div>
+
+                <div fxFlex="5" *ngIf="selectedRoom+1 && selectedRoom != addRoomOption.id"
+                    [ngSwitch]="selectedAction">
+                    <div class="btnGoTo">
+                        <mat-form-field *ngIf="selectedRoom+1 && selectedRoom != addRoomOption.id">
+                            <mat-label>Select Action</mat-label>
+                            <mat-select
+                                        [(value)]="selectedAction">
+                                <ng-container *ngFor="let option of actionOptions">
+                                    <mat-option [value]="option"
+                                        color="warn"> {{option}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                        <div *ngSwitchCase="'Show Info'">
+                            <a mat-list-item [routerLink]="['show-info', roomList[selectedRoom].roomId]"
+                            ><button mat-icon-button [ngStyle]="{color: 'teal'}">
+                                <mat-icon>info</mat-icon>
+                            </button></a>
+                        </div>
+                        <div *ngSwitchCase="'Show Messages'">
+                            <a mat-list-item [routerLink]="['show-messages', roomList[selectedRoom].roomId]"
+                            ><button mat-icon-button color="warn">
+                                <mat-icon>message</mat-icon>
+                            </button></a>
+                        </div>
+                        <div *ngSwitchCase="'Announcement History'">
+                            <a mat-list-item [routerLink]="['history', roomList[selectedRoom].roomId]"
+                            ><button mat-icon-button color="primary">
+                                <mat-icon>query_builder</mat-icon>
+                            </button></a>
+                        </div>
+                        
+                        <div *ngSwitchDefault></div>
+                    </div>
+                </div>
+                  
+                <div class="section-row">
+                   
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>

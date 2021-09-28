@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { UserRoomsService } from 'src/app/services/user-rooms.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -10,6 +10,14 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./view-users-list.component.scss']
 })
 export class ViewUsersListComponent implements OnInit {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  snackBarStyle = {
+    horizontalPosition: this.horizontalPosition,
+    verticalPosition: this.verticalPosition,
+    panelClass: ['my-snack-bar'],
+  }
+
   loading: boolean = true;
   lists : Array <any> = [];
   onlineUsers: any;
@@ -27,6 +35,7 @@ export class ViewUsersListComponent implements OnInit {
   });
 
   adding: boolean = false;
+  deleting: boolean = false;
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   
@@ -35,8 +44,7 @@ export class ViewUsersListComponent implements OnInit {
     public userRoomsService: UserRoomsService,
     private _snackBar: MatSnackBar
     ) { 
-      this.usersService.upadateOnlineUsers()
-      this.alertSnackBar('Hello');
+      this.usersService.upadateOnlineUsers();
   }
   
   ngOnInit(): void {
@@ -70,13 +78,32 @@ export class ViewUsersListComponent implements OnInit {
   }
 
   onDeleteUser(id:string){
-    if (confirm('Delete user "' + id + '" \n All of this user\'s Personal Chats & Keepboxes will be deleted!')) {
-      this.usersService.delete(id);
-      this.userRoomsService.onDeleteUser(id).subscribe(result => result.map(room => {
+    this.deleting = true;
+    this.deleteUserSnackBar(
+      'Delete user "' + id + '". Please notice that All of this user\'s Personal Chats & Keepboxes will be deleted!',
+      'Delete', id
+    );
+  }
+
+  deleteUserSnackBar(mess: string, action: string, actionInfo: string): void {   
+    let snackBarRef = this._snackBar.open(mess, action, {
+      duration: 8000,
+      ...this.snackBarStyle,
+    });
+    snackBarRef.onAction().subscribe(() => {
+      this.usersService.delete(actionInfo);
+      this.userRoomsService.onDeleteUser(actionInfo).subscribe(result => result.map(room => {
         this.userRoomsService.delete(room.payload.doc.id)
       }))
-    }
+    });
+    snackBarRef.afterDismissed().subscribe((info) => {
+      this.deleting = false;
+      info.dismissedByAction? 
+        this.alertSnackBar('User is deleted.')
+        : this.alertSnackBar('Cancel deleting user.')
+    })
   }
+
 
   onCancel(){
     this.editing = false;
@@ -107,29 +134,32 @@ export class ViewUsersListComponent implements OnInit {
     let usernameList = this.dataSource.filteredData.map(result => result.username);
 
     if (usernameList.includes(newUser.username))
-    alert('Username is existed!') 
+    this.alertSnackBar('Username is existed!') 
     else {
-      let goCreate;
-      goCreate = confirm('Create new user?')
-      goCreate? this.usersService.addNewUser(newUser) : alert ('Cancel creating new user.')
+      this.addUserSnackBar('Create new user?','Create',newUser)
     }
+  }
+
+  addUserSnackBar(mess: string, action: string, actionInfo: any): void {   
+    let snackBarRef = this._snackBar.open(mess, action, {
+      duration: 3000,
+      ...this.snackBarStyle,
+    });
+    snackBarRef.onAction().subscribe(() => {
+      this.usersService.addNewUser(actionInfo);
+    });
+    snackBarRef.afterDismissed().subscribe((info) => {
+      info.dismissedByAction? 
+        this.alertSnackBar('New user is created.')
+        : this.alertSnackBar('Cancel creating new user.')
+    })
   }
 
   alertSnackBar(mess: string): void {   
     this._snackBar.open(mess, null, {
-      // duration: 2000,
+      duration: 3000,
+      ...this.snackBarStyle
     });
   }
 
-  addUserSnackBar(mess: string, action: string): void {   
-    let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 2000,
-    });
-    snackBarRef.afterDismissed().subscribe(() => {
-      console.log('The snackbar was dismissed');
-    });
-    snackBarRef.onAction().subscribe(() => {
-      console.log('The snackbar action was triggered!');
-    });
-  }
 }

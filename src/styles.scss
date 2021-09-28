@@ -4,13 +4,15 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 $white: white;
-$dark-main: #19303E;
-$mid-main: #355061; 
-$light-main: #77A5C1;
+$darkest: #19303E;
+$dark-main: #355061; 
+$mid-main: DarkCyan;
+$light-main: #80CBC4;
 $special-font: 'Brush Script MT', cursive;
 $option-hover: rgba($light-main, 40%);
 $text-header: #4527A0;
-$table-th: coral;
+$table-no: $dark-main;
+$table-th: white;
 // aquamarine salmonvava
 
 .coral {
@@ -21,18 +23,65 @@ $table-th: coral;
     width: 100%;
 }
 
+.my-snack-bar {
+    margin-top: 70px !important;
+    margin-left: 240px !important;
+    color: white;
+    background-color: rgba($dark-main, 90%);
+    max-width: 50%;
+    button {
+        color: aquamarine
+    }
+}
+
+.mat-progress-bar {
+    margin: 20px 0;
+}
+
+.mat-progress-bar-buffer {
+    background-color: #80CBC4 !important;
+}
+
+.mat-progress-bar-fill {
+    background-color: #80CBC4 !important;
+}
+
+.mat-progress-bar-fill::after {
+    background-color: DarkCyan !important;
+}
+
+.header-h1 {
+    margin: 0 0 0 10px;
+    font-size: 24pt !important;
+    font-weight: bold !important;
+    font-family: $special-font !important;
+    color: $dark-main !important;
+}
+
+.header-h2 {
+    margin: 0 0 0 10px;
+    font-weight: bold !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-size: 20pt !important;
+    font-family: $special-font !important;
+    color: $mid-main !important;
+}
+
+.header-h3 {
+    margin: 0 0 0 5px;
+}
+
 th {
-    background-color: rgba($mid-main, 90%);
+    background-color: rgba($dark-main, 90%);
     font-size: 12pt !important;
-    font-weight: bold;
     font-family: $special-font;
-    color: coral !important;
+    color: white !important;
     margin: 0;
 }
 
 .mat-column-no {
     width: 5%;
-    color: $table-th;
     font-weight: bold;
 }
 
@@ -84,11 +133,11 @@ th {
     height: 100%;
     border: none;
     font-size: 16px;
-    background-color: $mid-main;
+    background-color: $dark-main;
     background-image: url('./assets/images/Background.jpg');
     background-position: center;
     background-size: cover;
-    color: $dark-main;
+    color: $darkest;
     outline: none;
     padding: 15px 0;
     display: table;
@@ -103,7 +152,7 @@ th {
 .auth-block {
     position: relative;
     text-align: center;
-    background: $mid-main;
+    background: $dark-main;
     border: 10px solid #FFFFFF;
     box-shadow: 0px 4px 4px rgba(black, 0.25);
     border-radius: 20px;
@@ -131,7 +180,7 @@ th {
     font-family: 'Brush Script MT', cursive;
     width: 75%;
     font-size: 12pt;
-    background: $mid-main;
+    background: $dark-main;
     cursor: pointer;
     outline: none;
     border: 2px solid white;
@@ -148,12 +197,12 @@ th {
 }
 
 .display-container .googleBtn {
-    background-color: $dark-main ;
+    background-color: $darkest ;
     margin-bottom: 10px;
 }
 
 .display-container .googleBtn {
-    background-color: $dark-main ;
+    background-color: $darkest ;
     margin-bottom: 10px;
 }
 
@@ -185,16 +234,16 @@ th {
     border-radius: 30px;
     display: block;
     padding: 10px 15px;
-    border: 4px solid $mid-main;
+    border: 4px solid $dark-main;
     outline: none;
     font-size: 13pt;
     background: #fcfcfc;
-    color: $dark-main;
+    color: $darkest;
 }
 
 .formControl::placeholder{
     font-weight: normal;
-    color: $mid-main;
+    color: $dark-main;
 }
 
 .formControl:focus {
@@ -212,7 +261,7 @@ th {
     align-content: center;
     font-weight: bold;
     text-align: center;
-    background: $mid-main;
+    background: $dark-main;
     border: 10px solid #FFFFFF;
     box-shadow: 0px 4px 4px rgba(black, 0.25);
     border-radius: 20px;

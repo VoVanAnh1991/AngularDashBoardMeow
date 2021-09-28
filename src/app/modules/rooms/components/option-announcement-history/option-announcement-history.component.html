@@ -1,0 +1,41 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="120px">
+    <div class="show-announcements" fxFlex="120" >
+        <div *ngIf="loading">
+            <app-progress-bar></app-progress-bar>
+        </div>
+        <div class="routing-btn" *ngIf="!loading">
+            <div>
+                <a mat-list-item [routerLink]="'/rooms/show-info/'+roomId"
+                ><button mat-icon-button [ngStyle]="{color: 'teal'}">
+                    <mat-icon>info</mat-icon>
+                </button></a>
+            </div>
+            <div>
+                <a mat-list-item [routerLink]="'/rooms/show-messages/'+roomId"
+                ><button mat-icon-button color="warn">
+                    <mat-icon>message</mat-icon>
+                </button></a>
+            </div>
+        </div>
+
+        <div class="show-messages-body" fxFlex="120" *ngIf="!loading" >
+            <div class="info" fxFlex="120">
+                <h2 class="header-h2">{{roomInfo?.roomName}}</h2> 
+            </div>
+            <div class="info" fxFlex="120">
+                <h3 class="header-h3">
+                    <b>No of Announcements:</b> {{noOfAnnouncements}}</h3>
+            </div>
+            <div class="messages" fxFlex="80">
+                <div class="messages-box">
+                    <div *ngFor="let message of adminAnnouncements">
+                        <div class="message'">
+                            <p><b>{{message?.announcedBy}} - {{message?.timestamp.toDate().toLocaleString() }}</b></p>
+                            <p>{{message?.message? message?.message : message?.sticker}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

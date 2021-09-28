@@ -1,0 +1,84 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="120px">
+    <div class="show-info" fxFlex="120" >
+        <div *ngIf="loading">
+            <app-progress-bar></app-progress-bar>
+        </div>
+        <div class="routing-btn" *ngIf="!loading">
+            <div>
+                <a mat-list-item [routerLink]="'/rooms/show-messages/'+roomId"
+                ><button mat-icon-button color="warn">
+                    <mat-icon>message</mat-icon>
+                </button></a>
+            </div>
+            <div>
+                <a mat-list-item [routerLink]="'/rooms/history/'+roomId"
+                ><button mat-icon-button color="primary">
+                    <mat-icon>query_builder</mat-icon>
+                </button></a>
+            </div>
+        </div>
+
+        <div class="info" *ngIf="!loading" >
+            <div class="change-info" fxFlex="120">
+                <h2 fxFlex="120" class="header-h2">{{roomInfo?.roomName}}</h2> 
+            </div>
+
+            <div class="change-info" fxFlex="120">
+                <mat-form-field appearance="outline" color="warn">
+                    <mat-label>Change room name</mat-label>
+                    <input matInput [(ngModel)]="newName" [placeholder]="roomInfo.roomName"> 
+                </mat-form-field>            
+
+                <button mat-icon-button color="primary"
+                [disabled]="!newName"    
+                (click)="onChangeRoomName(newName)" >
+                <mat-icon>border_color</mat-icon></button>
+            </div>
+
+            <div class="change-info" fxFlex="120">
+                <table class="public-room-info-table">
+                    <tr>
+                        <th>Room Id</th>
+                        <td>{{roomId}}</td>
+                    <tr>
+                    <tr>
+                        <th>Date Created</th>
+                        <td>{{roomInfo?.timestamp?.toDate().toLocaleDateString()}}</td>
+                    <tr>
+                    <tr>
+                        <th>Created By</th>
+                        <td>{{roomInfo?.createdBy}}</td>
+                    <tr>
+                    <tr>
+                        <th>Last Updated</th>
+                        <td>{{roomInfo?.lastUpdated?.toDate().toLocaleDateString()}}</td>
+                    <tr>
+                    <tr>
+                        <th>Updated By</th>
+                        <td>{{roomInfo?.lastUpdatedBy}}</td>
+                    <tr>
+                    <tr>
+                        <th>Updated Action</th>
+                        <td>{{roomInfo?.updatedAction}}</td>
+                    <tr>
+                    <tr>
+                        <th>Total of Messages</th>
+                        <td>{{roomMessages.length}}</td>
+                    <tr>
+                    <tr>
+                        <th>No of Announcement</th>
+                        <td>{{noOfAnnouncements}}</td>
+                    <tr>
+                </table>
+            </div>
+
+            <hr/>
+            <div class="change-info" >
+                <button mat-raised-button color="warn"
+                (click)="onDeleteRoom()" >
+                <mat-icon>delete</mat-icon></button>
+            </div>
+
+        </div>
+    </div>
+</div>

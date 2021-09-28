@@ -1,4 +1,4 @@
-$mid-main: #355061; 
+$dark-main: #355061; 
 footer {
     margin: 0;
     text-align: center; 
@@ -6,12 +6,12 @@ footer {
 
     h3 {
         font-size: 16px !important;
-        color: $mid-main !important;
+        color: $dark-main !important;
         margin: 0;
     }
 
     .mat-divider {
-        color: $mid-main;
+        color: $dark-main;
         border: 0.5px solid black;
     }
 }

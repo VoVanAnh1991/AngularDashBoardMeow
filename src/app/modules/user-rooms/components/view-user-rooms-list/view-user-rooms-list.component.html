@@ -5,7 +5,8 @@
                 fxFlex="30" appearance="outline">
                 <mat-label>Searching</mat-label>
                 <input matInput #filter 
-                (keyup)="applyFilter($event.target.value)"
+                    (click)="applyFilter('')"
+                    (keyup)="applyFilter($event.target.value)"
                 >
                 <button mat-icon-button matSuffix
                 *ngIf="filter.value"
@@ -13,18 +14,26 @@
                 ><mat-icon>close</mat-icon></button>
             </mat-form-field>
 
-            <div fxFlex="7">
+            <div fxFlex="20">
                 <button mat-mini-fab
-                    *ngIf="deleting"
+                    [disabled]="deleting==true && !deletingInfo"
+                    *ngIf="deleting && deletingInfo"
+                    color="warn"
                     (click)="onDeleteRoomMember(deletingInfo)" >
                 <mat-icon>delete_outline</mat-icon></button>
+                <button mat-mini-fab
+                    [disabled]="!deletingInfo"
+                    *ngIf="deleting && deletingInfo"
+                     color="primary"
+                    (click)="deleting = false" >
+                <mat-icon>close</mat-icon></button>
             </div>
 
-            <mat-paginator (click)="deleting = false" fxFlex="120" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>            
+            <mat-paginator fxFlex="120" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>            
         </div>   
 
         <div *ngIf="loading">
-            <app-spinner></app-spinner>
+            <app-progress-bar></app-progress-bar>
         </div>
         
 
@@ -56,15 +65,21 @@
                     <ng-container matColumnDef="noOfUsers">
                         <th mat-header-cell *matHeaderCellDef> Room UserIds </th>
                         <td mat-cell *matCellDef="let element"> 
-                            <mat-form-field appearance="standard">
-                                <mat-label> {{ 
+                            <mat-form-field hideRequiredMarker="true" appearance="standard">
+                                <mat-select [(ngModel)]="option" 
+                                    [placeholder]=" 
                                     element.roomUserIds.length ==1? element.roomMembers[0] 
-                                    : element.roomUserIds.length ==2? "Personal Chat"
-                                        : (element.roomUserIds.length + " members") 
-                                    }}</mat-label>
-                                <mat-select [(ngModel)]="option">
+                                    : element.roomUserIds.length ==2? 'Personal Chat'
+                                        : (element.roomUserIds.length + ' members') 
+                                    "
+                                >
                                     <ng-container *ngFor="let user of element.roomMembers, let i = index">
-                                        <mat-option (click)="onOption(element.roomUserIds[i],user,element)" color="warn">{{element.roomUserIds.length ==1? '' : (i+1 + '.')}} {{user? user : "** Deleted User **"}}</mat-option>
+                                        <mat-option
+                                            (click)="(deleting || element.warning!='warning') ? '' : onOption(element.roomUserIds[i],user,element)"
+                                            [disabled]="user" 
+                                            color="warn"> {{ element.roomUserIds.length ==1? '' 
+                                                : (i+1 + '.')}} {{user? user : "** Deleted User **"}}
+                                        </mat-option>
                                     </ng-container>
                                 </mat-select>
                             </mat-form-field>    
@@ -89,11 +104,17 @@
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef>Action</th>
                         <td mat-cell *matCellDef="let element">
-                              <button mat-mini-fab color="warn"
-                                [disabled]="element.warning != 'warning' "
+                            <button mat-mini-fab color="warn"
+                                *ngIf="!deleting"
+                                [disabled]="element.warning != 'warning' || deleting == true"
                                 (click)="onDeleteUserRoom(element.id)"
-                            >
-                                <mat-icon>delete</mat-icon></button>
+                            ><mat-icon>delete</mat-icon></button>
+    
+                            <button mat-mini-fab color="primary"
+                                *ngIf="deleting"
+                                [disabled]="(deletingId && element.id != deletingId) || !deletingId "
+                                (click)="deleting = false"
+                            ><mat-icon>close</mat-icon></button>
     
                         </td>
                     </ng-container>

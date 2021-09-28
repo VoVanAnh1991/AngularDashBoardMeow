@@ -1,7 +1,7 @@
-<app-header (toggleSidebar)="sidebarToggle"></app-header>
+<app-header (toggleSidebar)="sidebarToggle()"></app-header>
 
 <mat-drawer-container>
-    <mat-drawer mode="side" opened="sidebarOpen">
+    <mat-drawer *ngIf="sidebarOpen" mode="side" opened="sidebarOpen">
         <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer-content class="main-section">

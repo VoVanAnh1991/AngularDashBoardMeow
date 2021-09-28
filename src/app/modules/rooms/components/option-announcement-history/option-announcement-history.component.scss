@@ -1,0 +1,77 @@
+$white: white;
+$darkest: #19303E;
+$dark-main: #355061; 
+$mid-main: DarkCyan;
+$light-main: #80CBC4;
+$special-font: 'Brush Script MT', cursive;
+$option-hover: rgba($light-main, 40%);
+$text-header: #4527A0;
+$table-no: $dark-main;
+$table-th: white;
+
+.info, .messages, .input {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.messages-box {
+    padding: 10px;
+    width: 80%;
+    height: 350px;
+    overflow: scroll;
+    overflow-x: hidden;
+    border-radius: 10px;
+    border: 2px solid $dark-main;
+}
+
+.message {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.admin-team {
+    background-color: rgba($light-main, 50%);
+}
+
+.input {
+    margin-top: 10px;
+    
+    .mat-form-field{
+        width: 370px;
+        height: 100px;
+    }
+
+    .mat-mini-fab {
+        margin: 15px 5px 10px 5px;
+        background-color: $dark-main;
+        color: $white;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 13px;
+}    
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 99999;
+    margin: 2px;
+}    
+
+::-webkit-scrollbar-thumb {
+    background: $light-main;
+    border-radius: 7px;    
+}  
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba($mid-main, 50%);
+}    
+
+.show-announcements {
+    position: relative;
+}
+
+.routing-btn {
+    position: absolute;
+}

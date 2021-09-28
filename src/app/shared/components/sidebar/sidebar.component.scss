@@ -1,7 +1,7 @@
 $white: white;
-$dark-main: #19303E;
-$mid-main: #355061; 
-$light-main: #77A5C1;
+$darkest: #19303E;
+$dark-main: #355061; 
+$light-main: #80CBC4;
 $special-font: 'Brush Script MT', cursive;
 $option-hover: rgba($light-main, 40%);
 
@@ -69,7 +69,6 @@ $option-hover: rgba($light-main, 40%);
 .mat-subheader {
     text-decoration: underline wavy;
     line-height: 40px;
-    // text-underline-position: under;
     text-underline-offset: 4px;
 }
 
