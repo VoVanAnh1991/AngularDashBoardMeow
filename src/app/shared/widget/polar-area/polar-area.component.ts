@@ -65,6 +65,5 @@ export class PolarAreaComponent implements OnInit {
   }
 
   ngOnInit () {
-    console.log()
   }
 }

@@ -1,1 +1,9 @@
-<p>view-tasks-list works!</p>
+<nav mat-tab-nav-bar [style.backgroundColor]="teal" color="primary">
+    <a mat-tab-link *ngFor="let link of links" color="primary"
+    [routerLink]="'/tasks'+link.url"
+    routerLinkActive="list-item-active"
+    (click)="activeLink = link.url"
+    [disabled]="activeLink == link.url"
+    [active]="activeLink == link.url"> {{link.name}} </a>
+</nav>
+<router-outlet></router-outlet>

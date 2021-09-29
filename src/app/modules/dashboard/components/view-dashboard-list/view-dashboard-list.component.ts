@@ -9,7 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class ViewDashboardListComponent implements OnInit {
   lists : Array <any> = []
-  userDataSource;
+  userDataSource: any;
   displayedColumns: string[]=[
     "id", "username", "password", "data_created"
   ];
@@ -25,7 +25,7 @@ export class ViewDashboardListComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getAllUsers().subscribe((result)=>{
       this.totalUsers = result.length;
-      this.lists = result.map((item)=>{
+      this.list = result.map((item)=>{
         return {
           id: item.payload.doc.id,
           ...(item.payload.doc.data() as {}),
@@ -38,7 +38,7 @@ export class ViewDashboardListComponent implements OnInit {
     result.filter((item:any) =>{
         (this.totalWeekUsers += 1);
     })
-        this.userDataSource = new MatTableDataSource<any>(this.lists)
+        this.userDataSource = new MatTableDataSource<any>(this.list)
         this.userDataSource.paginator = this.paginator;
       })
     }

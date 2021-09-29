@@ -16,15 +16,15 @@
 
             <div fxFlex="20">
                 <button mat-mini-fab
-                    [disabled]="deleting==true && !deletingInfo"
                     *ngIf="deleting && deletingInfo"
-                    color="warn"
+                    [disabled]="deleting==true && !deletingInfo"
+                    [ngStyle]="!(deleting==true && !deletingInfo) && {color: 'white', backgroundColor: 'indianred'}"
                     (click)="onDeleteRoomMember(deletingInfo)" >
                 <mat-icon>delete_outline</mat-icon></button>
                 <button mat-mini-fab
-                    [disabled]="!deletingInfo"
                     *ngIf="deleting && deletingInfo"
-                     color="primary"
+                    [disabled]="!deletingInfo"
+                    [ngStyle]="deletingInfo && {color: 'white', backgroundColor: '#8D6E63'}"
                     (click)="deleting = false" >
                 <mat-icon>close</mat-icon></button>
             </div>
@@ -107,12 +107,16 @@
                             <button mat-mini-fab color="warn"
                                 *ngIf="!deleting"
                                 [disabled]="element.warning != 'warning' || deleting == true"
+                                [ngStyle]="!(element.warning != 'warning' || deleting == true) 
+                                    && {color: 'white', backgroundColor: 'indianred'}"
                                 (click)="onDeleteUserRoom(element.id)"
                             ><mat-icon>delete</mat-icon></button>
     
                             <button mat-mini-fab color="primary"
                                 *ngIf="deleting"
                                 [disabled]="(deletingId && element.id != deletingId) || !deletingId "
+                                [ngStyle]="!((deletingId && element.id != deletingId) || !deletingId) 
+                                    && {color: 'white', backgroundColor: '#8D6E63'}"
                                 (click)="deleting = false"
                             ><mat-icon>close</mat-icon></button>
     

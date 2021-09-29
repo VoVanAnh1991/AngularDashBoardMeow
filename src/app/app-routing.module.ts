@@ -14,11 +14,19 @@ import { ViewUserRoomsListComponent } from './modules/user-rooms/components/view
 import { OptionShowInfoComponent } from './modules/rooms/components/option-show-info/option-show-info.component';
 import { OptionShowMessagesComponent } from './modules/rooms/components/option-show-messages/option-show-messages.component';
 import { OptionAnnouncementHistoryComponent } from './modules/rooms/components/option-announcement-history/option-announcement-history.component';
+import { ViewOngoingTasksComponent } from './modules/tasks/components/view-ongoing-tasks/view-ongoing-tasks.component';
+import { ViewMyTasksComponent } from './modules/tasks/components/view-my-tasks/view-my-tasks.component';
+import { ViewCompletedTasksComponent } from './modules/tasks/components/view-completed-tasks/view-completed-tasks.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DefaultComponent,
+    // component: ViewDashboardListComponent,
+    // component: ViewCompletedTasksComponent,
+    // component: ViewMyTasksComponent,
+    // component: ViewOngoingTasksComponent,
+    // component: ViewTasksListComponent,
     // component: OptionAnnouncementHistoryComponent,
     // component: OptionShowMessagesComponent,
     // component: OptionShowInfoComponent,

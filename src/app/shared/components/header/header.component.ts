@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
 
     onSignOutSnackBar(mess: string, action: string): void {   
         let snackBarRef = this._snackBar.open(mess, action, {
-            duration: 3000,
+            duration: 2000,
             ...this.snackBarStyle,
         });
         snackBarRef.onAction().subscribe(() => {
@@ -57,4 +57,13 @@ export class HeaderComponent implements OnInit {
         });
     }
 
+    onShowAboutSection(){
+        this.onShowAboutSectionSnackBar('vva.dev.1991@gmail.com','OK')
+    }
+
+    onShowAboutSectionSnackBar(mess: string, action: string): void {   
+        this._snackBar.open(mess, action, {
+            ...this.snackBarStyle,
+        });
+    }
 }

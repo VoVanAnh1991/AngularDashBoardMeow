@@ -15,7 +15,7 @@
                 <mat-form-field>
                     <mat-label>Select A Room</mat-label>
                     <mat-select [(value)]="selectedRoom">
-                        <!-- <mat-option>View All Public Rooms</mat-option> -->
+                        
                         <ng-container *ngFor="let option of roomOptions">
                             <mat-option [value]="option.index"
                                 color="warn"> {{option.roomName}}
@@ -23,12 +23,6 @@
                         </ng-container>
                     </mat-select>
                 </mat-form-field>
-
-                <!-- <a mat-list-item routerLink="/all-public-rooms" [ngStyle]="{margin: '0px 0px 0px 10px'}"
-                    *ngIf="!selectedRoom&&selectedRoom!==0"
-                    ><button mat-raised-button color="warn">
-                       <span [ngStyle]="{padding: '0px 10px'}">View All Public Rooms</span>
-                    </button></a> -->
 
                 <div *ngIf="selectedRoom == addRoomOption.index">
                     <mat-form-field>
@@ -38,6 +32,8 @@
                     
                     <button mat-raised-button color="primary"
                     [disabled]="!newRoomName || allRoomNames.includes(newRoomName)"    
+                    [ngStyle]="!(!newRoomName || allRoomNames.includes(newRoomName)) 
+                        && {color: 'white', backgroundColor: '#66BB6A'}"
                     (click)="addRoom(newRoomName)" >
                     <mat-icon>add</mat-icon></button>
                 </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { RoomsRoutingModule } from './rooms-routing.module';
 import { ViewRoomsListComponent } from './components/view-rooms-list/view-rooms-list.component';
-import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OptionShowInfoComponent } from './components/option-show-info/option-show-info.component';
@@ -26,7 +26,6 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     RouterModule,
     RoomsRoutingModule,
-    MatDividerModule
   ]
 })
 export class RoomsModule { }

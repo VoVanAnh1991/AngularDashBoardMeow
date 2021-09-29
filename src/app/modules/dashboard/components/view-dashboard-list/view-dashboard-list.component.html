@@ -24,11 +24,7 @@
 
 <div>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-        <div fxFlex="50">
-            <div class="mat-elevation-z8 task">
-                <h3>None-Assigned Tasks</h3>
-                <app-not-assigned-tasks></app-not-assigned-tasks>
-            </div>            
+        <div fxFlex="60">
             <div class="mat-elevation-z8">
                 <h3>User accounts</h3>
                 <table mat-table [dataSource]="userDataSource">
@@ -64,22 +60,17 @@
                 </table>
                 <mat-paginator [pageSizeOptions]="[5]"></mat-paginator>
             </div>        
+            <div class="mat-elevation-z8 task">
+                <h3>None-Assigned Tasks</h3>
+                <app-not-assigned-tasks></app-not-assigned-tasks>
+            </div>  
         </div>
-        <div fxFlex="50">
+        <div fxFlex="60">
             <app-polar-area></app-polar-area>
             <div class="mat-elevation-z8 task">
                 <h3>None-Assigned Tasks</h3>
-                <ul *ngFor="let task of tasks, let i = index">
-                    <li *ngIf="!task.completed">
-                        <mat-checkbox
-                            [checked]="task.completed"
-                            [color]="task.color"
-                            (click)="update(task.completed, i)">
-                        {{task.name}}
-                        </mat-checkbox>
-                    </li>
-                </ul>
-            </div>     
+                <app-not-assigned-tasks></app-not-assigned-tasks>
+            </div>            
         </div>
     </div>
 </div>

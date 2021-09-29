@@ -30,7 +30,8 @@
                 </mat-form-field>            
 
                 <button mat-icon-button color="primary"
-                [disabled]="!newName"    
+                [disabled]="!newName"   
+                [ngStyle]="newName && {color: '#355061'}" 
                 (click)="onChangeRoomName(newName)" >
                 <mat-icon>border_color</mat-icon></button>
             </div>
@@ -74,8 +75,9 @@
 
             <hr/>
             <div class="change-info" >
-                <button mat-raised-button color="warn"
-                (click)="onDeleteRoom()" >
+                <button mat-raised-button
+                    [ngStyle]="{color: 'white', backgroundColor: 'indianred'}"
+                    (click)="onDeleteRoom()" >
                 <mat-icon>delete</mat-icon></button>
             </div>
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { UserRoomsService } from 'src/app/services/user-rooms.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -19,7 +19,7 @@ export class ViewUsersListComponent implements OnInit {
   }
 
   loading: boolean = true;
-  lists : Array <any> = [];
+  list : Array <any> = [];
   onlineUsers: any;
   dataSource;
   displayedColumns: string[]=[
@@ -30,8 +30,8 @@ export class ViewUsersListComponent implements OnInit {
   editingId: string;
   
   newUserForm = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
+    username: new FormControl('', [ Validators.required]),
+    password: new FormControl('', [ Validators.required]),
   });
 
   adding: boolean = false;
@@ -54,20 +54,20 @@ export class ViewUsersListComponent implements OnInit {
       });
     })
     this.usersService.getAllUsers().subscribe((result)=>{
-      this.lists = result.map((item, index)=>{
+      this.list = result.map((item, index)=>{
         return {
           no: result.length - index , 
           id: item.payload.doc.id,
           ...(item.payload.doc.data() as {}),
         }
       })
-      this.dataSource = new MatTableDataSource<any>(this.lists)
+      this.dataSource = new MatTableDataSource<any>(this.list)
       this.dataSource.paginator = this.paginator;
       this.loading = false;
     })    
   }
 
-  applyFilter(filterValue): void {
+  applyFilter(filterValue: string): void {
     filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
@@ -136,23 +136,9 @@ export class ViewUsersListComponent implements OnInit {
     if (usernameList.includes(newUser.username))
     this.alertSnackBar('Username is existed!') 
     else {
-      this.addUserSnackBar('Create new user?','Create',newUser)
+      this.usersService.addNewUser(newUser);
+      this.newUserForm.reset();
     }
-  }
-
-  addUserSnackBar(mess: string, action: string, actionInfo: any): void {   
-    let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 3000,
-      ...this.snackBarStyle,
-    });
-    snackBarRef.onAction().subscribe(() => {
-      this.usersService.addNewUser(actionInfo);
-    });
-    snackBarRef.afterDismissed().subscribe((info) => {
-      info.dismissedByAction? 
-        this.alertSnackBar('New user is created.')
-        : this.alertSnackBar('Cancel creating new user.')
-    })
   }
 
   alertSnackBar(mess: string): void {   

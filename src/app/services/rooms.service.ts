@@ -28,6 +28,7 @@ export class RoomsService {
         roomName: newRoomName,
         createdBy: adminEmail,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(result => {
         this.db.doc('rooms/'+result.id).update({roomId: result.id})
@@ -57,6 +58,9 @@ export class RoomsService {
 
   sendAnnouncement(roomId,newAnnouncement: string){
     let adminEmail = JSON.parse(localStorage.getItem('adminDashboard')).email;
+    this.db.collection('rooms').doc(roomId).update({
+            lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
+      });
     return this.db.collection('rooms/'+roomId+'/messages').add({
       message: newAnnouncement,
       user: 'Admin Team',
@@ -64,6 +68,7 @@ export class RoomsService {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       announcedBy: adminEmail,
     })
+
   }
 
   deleteRoom(id: string){

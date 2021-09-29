@@ -17,21 +17,26 @@ export class UsersService {
   }
 
   upadateOnlineUsers(){
-    let status;
+    let userStatuses: Array<any>;
     this.db.collection("status").snapshotChanges().subscribe(
       result => { 
-        status = result.map ( doc => {
+        userStatuses = result.map ( doc => {
           return {
             id: doc.payload.doc.id,
             ...(doc.payload.doc.data() as {})
-          }})
+        }})
 
-        let lastChanged = status.last_changed.seconds
         let today = Math.floor(new Date().valueOf()/1000)
-        console.log(status.id);
-        if(today - lastChanged > 9000) {
-          this.db.doc('status/'+status.id).update({status: "offline"})
-        }
+        userStatuses.forEach((userStatus: any) => {
+          let lastChanged: any;
+          userStatus.lastChanged? 
+           (lastChanged = userStatus.lastChanged.seconds)
+           : (lastChanged = 0);
+
+          if(today - lastChanged > 36000 && userStatus.status == "online") {
+            this.db.doc('status/'+userStatus.id).update({status: "offline"})
+          }
+        })
       }
     );
   }

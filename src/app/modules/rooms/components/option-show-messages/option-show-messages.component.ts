@@ -57,13 +57,11 @@ export class OptionShowMessagesComponent implements OnInit {
     (this.roomInfo && this.roomMessages) && (this.loading = false);
   }
   
-    onSubmit() {
-      this.loading = true;
-      this.roomsService.sendAnnouncement(this.roomId, this.newAnnouncement).then(() => {
-        this.loading = false;
-        this.newAnnouncement=null;
-      })
-    }
+  onSubmit() {
+    this.roomsService.sendAnnouncement(this.roomId, this.newAnnouncement).then(() => {
+      this.newAnnouncement=null;
+    })
+  }
 
   onDeleteAllMessages(){
     this.onDeleteAllMessagesSnackBar('Delete all messages?','Delete',this.roomId)

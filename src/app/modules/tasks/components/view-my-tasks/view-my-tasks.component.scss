@@ -5,6 +5,10 @@ $darkest: #19303E;
 $dark-main: #355061; 
 $light-main: #80CBC4;
 
+.ongoing-task {
+    margin-top: 20px;
+}
+
 .mat-elevation-z8 {
     margin-top: 10px;
 }
@@ -17,18 +21,22 @@ $light-main: #80CBC4;
     text-align: center;
 }
 
-.mat-column-id {
-    width: 17%;
+.mat-cell-column-task {
+    text-align: left;
+}
+
+.mat-column-id, .mat-column-data_created, .mat-column-task, .mat-column-to {
+    width: 16%;
     .mat-icon {
         font-size: 20px;
     }
 }
 
-.mat-column-username, .mat-column-nickname, .mat-column-email {
-    width: 15%;
+.mat-column-assigned, .mat-column-from {
+    width: 10%;
 }
 
-.mat-column-isGGUser, .mat-column-data_created, .mat-column-action {
+.mat-column-action {
     width: 11%;
 }
 
@@ -50,6 +58,14 @@ button {
 
 .add-new-user-form .mat-form-field {
     margin: 0px 20px;
+}
+
+.task {
+    width: 640px;
+}
+
+.to, .adminId {
+    width: 300px;
 }
 
 h2 {

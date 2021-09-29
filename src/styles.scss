@@ -13,7 +13,17 @@ $option-hover: rgba($light-main, 40%);
 $text-header: #4527A0;
 $table-no: $dark-main;
 $table-th: white;
-// aquamarine salmonvava
+
+// lightgreen-success #66BB6A - submit
+// [ngStyle]="{color: 'white', backgroundColor: '#66BB6A'}"
+// darkgreen: #355061 - edit add
+// brown: #8D6E63 - close
+// lightred-delete: indianred -delete
+
+mat-mini-fab:disabled {
+    color: white;
+    background-color: #616161 !important;
+}
 
 .coral {
     color: coral;

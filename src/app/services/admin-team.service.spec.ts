@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AddminTeamService } from './addmin-team.service';
+import { AdminTeamService } from './admin-team.service';
 
-describe('AddminTeamService', () => {
+describe('AdminTeamService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AddminTeamService = TestBed.get(AddminTeamService);
+    const service: AdminTeamService = TestBed.get(AdminTeamService);
     expect(service).toBeTruthy();
   });
 });

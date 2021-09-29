@@ -19,7 +19,7 @@ export class ViewUserRoomsListComponent implements OnInit {
   }
 
   loading: boolean = true;
-  lists : Array <any> = [];
+  list : Array <any> = [];
   option: string;
   
   usernameList: any = {}
@@ -60,7 +60,7 @@ export class ViewUserRoomsListComponent implements OnInit {
 
     ngOnInit(): void {  
       this.userRoomsService.getAllUserRooms().subscribe((result)=>{
-        this.lists = result.map((item, index)=>{         
+        this.list = result.map((item, index)=>{         
           return {
             no: result.length - index , 
             id: item.payload.doc.id,
@@ -69,22 +69,22 @@ export class ViewUserRoomsListComponent implements OnInit {
         })
         let allUsernames = this.usernameList.map(user => {return user.username});
         let allUserIds = this.usernameList.map(user => {return user.id});
-        this.lists.forEach((room, index) => {
+        this.list.forEach((room, index) => {
           let roomMembers = room.roomUserIds.map(id => {
             let index = allUserIds.indexOf(id)
             return allUsernames[index];
           })
-          this.lists[index] = {
-            ...this.lists[index],
+          this.list[index] = {
+            ...this.list[index],
             roomMembers,
             warning: roomMembers.includes(undefined)? 'warning' :  
-                  (this.lists[index].roomType == 'userFriends' 
+                  (this.list[index].roomType == 'userFriends' 
                     && roomMembers.length <2) ? 'warning' : ''
           };
         })
         
 
-        this.dataSource = new MatTableDataSource<any>(this.lists)
+        this.dataSource = new MatTableDataSource<any>(this.list)
         this.dataSource.paginator = this.paginator;
         this.loading = false;
     })

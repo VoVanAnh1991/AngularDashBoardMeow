@@ -6,11 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-tasks-list.component.scss']
 })
 export class ViewTasksListComponent implements OnInit {
-
+  links=[{url:'/ongoing-tasks', name: 'Ongoing Tasks'}, {url:'/my-tasks', name: 'My Tasks'}, {url:'/completed-tasks', name: 'Completed Tasks'}]
   constructor() { }
 
+  activeLink: string;
+
   ngOnInit() {
-    console.log(localStorage.getItem('adminDashboard'))
   }
+
 
 }

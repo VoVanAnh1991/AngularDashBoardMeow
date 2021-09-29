@@ -32,7 +32,8 @@
                     <div *ngFor="let message of roomMessages">
                         <div [class]="message.userId=='AdminTeam'? 'admin-team message' : 'user message'">
                             <p><b>{{message?.user}} - {{message?.timestamp.toDate().toLocaleString() }}</b></p>
-                            <p>{{message?.message? message?.message : message?.sticker}}</p>
+                            <p *ngIf="!message.message?.includes('http')">{{message?.message? message?.message : message?.sticker}}</p>
+                            <a [href]="message.message" rel="nonoreferrer" target="_blank" *ngIf="message.message?.includes('http')">{{message?.message}}</a>
                         </div>
                     </div>
                 </div>
@@ -45,11 +46,13 @@
                 </mat-form-field>
 
                 <button mat-mini-fab class="submit-btn" color="warn"
-                (click)="onSubmit()" >
+                    [ngStyle]="{color: 'white', backgroundColor: '#66BB6A'}"
+                    (click)="onSubmit()" >
                 <mat-icon>add</mat-icon></button>
                 
                 <button mat-mini-fab class="delete-btn" color="warn"
-                (click)="onDeleteAllMessages()" >
+                    [ngStyle]="{color: 'white', backgroundColor: 'indianred'}"
+                    (click)="onDeleteAllMessages()" >
                 <mat-icon>delete</mat-icon></button>
             </div>
 
