@@ -1,0 +1,70 @@
+$white: white;
+$darkest: #19303E;
+$dark-main: #355061; 
+$mid-main: DarkCyan;
+$light-main: #80CBC4;
+$special-font: 'Brush Script MT', cursive;
+$option-hover: rgba($light-main, 40%);
+$text-header: #4527A0;
+$table-no: $dark-main;
+$table-th: white;
+
+.chat-box {
+    height: 400px;
+}
+
+.messages-box {
+    height: 300px;
+    overflow: scroll;
+    border: 2px solid rgb(53, 80, 97);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message {
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0px;
+}
+
+.input {
+    position: relative;
+    margin-top: 10px;
+    
+    .mat-form-field{
+        width: 80%;
+        height: 100px;
+        margin-left: 30px;
+    }
+
+    .mat-mini-fab {
+        position: absolute;
+        top: 15px;
+        margin: 0px 0px 10px 20px;
+    }
+    
+    .delete-btn {
+        background-color: salmon;
+        color: $white;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 13px;
+}    
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 99999;
+    margin: 2px;
+}    
+
+::-webkit-scrollbar-thumb {
+    background: rgba($light-main, 70%);
+    border-radius: 7px;
+    
+}    
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba($mid-main, 50%);
+}    

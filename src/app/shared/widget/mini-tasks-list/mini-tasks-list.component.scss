@@ -1,0 +1,41 @@
+$special-font: 'Brush Script MT', cursive;
+$text-header: #4527A0;
+$table-th: coral;
+$darkest: #19303E;
+$dark-main: #355061; 
+$light-main: #80CBC4;
+
+table {
+    border: 2px solid rgba($dark-main,90%)
+}
+
+.mat-paginator {
+    background-color: transparent;
+}
+
+.mat-header-cell, .mat-cell {
+    text-align: center;
+    padding: 0 5px;
+}
+
+.mat-column-task:not(th) {
+    text-align: left;
+    font-size: 12pt;
+    color: darkcyan;
+}
+
+.mat-column-assigned {
+    width: 10%;
+}
+
+.mat-column-task {
+    width: 50%;
+}
+
+.mat-column-from {
+    width: 20%;
+}
+
+.mat-column-taskGiverId {
+    width: 20%;
+}

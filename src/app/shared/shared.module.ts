@@ -22,10 +22,12 @@ import { ColumnComponent } from './widget/column/column.component';
 import { PolarAreaComponent } from './widget/polar-area/polar-area.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ViewDashboardListComponent } from '../modules/dashboard/components/view-dashboard-list/view-dashboard-list.component';
-import { MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatProgressBarModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
-import { NotAssignedTasksComponent } from './widget/not-assigned-tasks/not-assigned-tasks.component';
+import { MatCheckboxModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatProgressBarModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 import { ProgressBarComponent } from './widget/progress-bar/progress-bar.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MiniTasksListComponent } from './widget/mini-tasks-list/mini-tasks-list.component';
+import { MiniUsersListComponent } from './widget/mini-users-list/mini-users-list.component';
+import { AdminChatRoomComponent } from './widget/admin-chat-room/admin-chat-room.component';
 
 @NgModule ({
     declarations: [
@@ -38,8 +40,10 @@ import { ReactiveFormsModule } from '@angular/forms';
         PieComponent,
         ColumnComponent,
         PolarAreaComponent,
-        NotAssignedTasksComponent,
         ProgressBarComponent,
+        MiniUsersListComponent,
+        MiniTasksListComponent,
+        AdminChatRoomComponent,
     ],
     imports: [
         CommonModule,
@@ -63,6 +67,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         MatOptionModule,
         ReactiveFormsModule,
         MatSnackBarModule,
+        FormsModule,
+        MatInputModule,
     ],
     exports: [
         HeaderComponent, 
@@ -75,6 +81,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         ColumnComponent,
         PolarAreaComponent,
         ProgressBarComponent,
+        MiniUsersListComponent,
+        MiniTasksListComponent,
+        AdminChatRoomComponent,
     ]
 })
 

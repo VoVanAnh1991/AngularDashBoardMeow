@@ -1,76 +1,67 @@
-<div fxLayout="row"
-    fxLayoutAlign="space-between center"
-    fxLayoutGap="20px"
-    class="state-cards"
->
-    <mat-card fxFlex="33">
-        <app-card label="Users this Week" 
-        total="9"
-        ></app-card>
-    </mat-card>
-    <mat-card fxFlex="33">
-        <app-card label="Users this Month" 
-        [total]="totalMonthUsers"
-        ></app-card>
-    </mat-card>
-    <mat-card fxFlex="33">
-        <app-card label="Total Users" 
-        [total]="totalUsers"
-        ></app-card>
-    </mat-card>
+<div *ngIf="loading">
+    <app-progress-bar></app-progress-bar>
 </div>
-<br>
-<mat-divider></mat-divider>
 
-<div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-        <div fxFlex="60">
-            <div class="mat-elevation-z8">
-                <h3>User accounts</h3>
-                <table mat-table [dataSource]="userDataSource">
-                    <ng-container matColumnDef="id">
-                        <th mat-header-cell *matHeaderCellDef>id</th>
-                        <td mat-cell *matCellDef="let element">{{element.id}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="username">
-                        <th mat-header-cell *matHeaderCellDef>username</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.username}}                           
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="password">
-                        <th mat-header-cell *matHeaderCellDef>password</th>
-                        <td mat-cell *matCellDef="let element">
-                            <th mat-header-cell *matHeaderCellDef>password</th>
-                            <td mat-cell *matCellDef="let element">
-                            {{element.password}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="date_created">
-                        <th mat-header-cell *matHeaderCellDef>date_created</th>
-                        <td mat-cell *matCellDef="let element">{{
-                            element.timestamp?
-                                element.timestamp.toDate().toUTCString()
-                                : "No date"    
-                        }}</td>
-                    </ng-container>
-    
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns">
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns">
-                </table>
-                <mat-paginator [pageSizeOptions]="[5]"></mat-paginator>
-            </div>        
-            <div class="mat-elevation-z8 task">
-                <h3>None-Assigned Tasks</h3>
-                <app-not-assigned-tasks></app-not-assigned-tasks>
-            </div>  
-        </div>
-        <div fxFlex="60">
-            <app-polar-area></app-polar-area>
-            <div class="mat-elevation-z8 task">
-                <h3>None-Assigned Tasks</h3>
-                <app-not-assigned-tasks></app-not-assigned-tasks>
-            </div>            
+<div *ngIf="!loading">
+    <div fxLayout="row"
+        fxLayoutAlign="space-between center"
+        fxLayoutGap="20px"
+        class="state-cards"
+    >
+        <mat-card class="ongoing-tasks" fxFlex="25">
+            <mat-card-title>Ongoing Tasks</mat-card-title>
+            <app-card
+                    [total]="totalTasks"
+            ></app-card>
+        </mat-card>
+        <mat-card class="month-users" fxFlex="25">
+            <mat-card-title>Users this Month</mat-card-title>
+            <app-card 
+            [total]="totalMonthUsers"
+            ></app-card>
+        </mat-card>
+        <mat-card class="total-users" fxFlex="25">
+            <mat-card-title>Total Users</mat-card-title>
+            <app-card 
+                    [total]="totalUsers"
+            ></app-card>
+        </mat-card>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+
+    <div>
+        <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
+            <div class="column" fxFlex="60">
+                <div class="tasks" fxFlex="120">
+                    <h1 class="header-h1">Ongoing Tasks</h1>
+                    <app-mini-tasks-list></app-mini-tasks-list>
+                </div>            
+
+                <div class="chat-room" fxFlex="120">
+                    <h1 class="header-h1">Admin Chat Room</h1>
+                    <div class="chat-box">
+                        <app-admin-chat-room></app-admin-chat-room>
+                    </div>
+                </div>  
+
+            </div>
+
+            <div class="column" fxFlex="60">
+                <div class="chart" fxFlex="120">
+                    <app-polar-area [chartRooms]="rooms"
+                                    [chartUserFriends]="userFriends"
+                                    [chartUserRooms]="userRooms"
+                                    [chartUserKeepbox]="userKeepbox"
+                    ></app-polar-area>
+                </div>
+              
+                <div class="mini-users-list" fxFlex="120">
+                    <h1 class="header-h1">Reccent Sign Up Users</h1>
+                    <app-mini-users-list></app-mini-users-list>    
+                </div>        
+
+            </div>
         </div>
     </div>
 </div>

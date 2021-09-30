@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotAssignedTasksComponent } from './not-assigned-tasks.component';
+import { AdminChatRoomComponent } from './admin-chat-room.component';
 
-describe('NotAssignedTasksComponent', () => {
-  let component: NotAssignedTasksComponent;
-  let fixture: ComponentFixture<NotAssignedTasksComponent>;
+describe('AdminChatRoomComponent', () => {
+  let component: AdminChatRoomComponent;
+  let fixture: ComponentFixture<AdminChatRoomComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotAssignedTasksComponent ]
+      declarations: [ AdminChatRoomComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NotAssignedTasksComponent);
+    fixture = TestBed.createComponent(AdminChatRoomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

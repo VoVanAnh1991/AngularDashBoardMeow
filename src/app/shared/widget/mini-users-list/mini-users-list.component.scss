@@ -1,0 +1,31 @@
+$special-font: 'Brush Script MT', cursive;
+$text-header: #4527A0;
+$table-th: coral;
+$darkest: #19303E;
+$dark-main: #355061; 
+$light-main: #80CBC4;
+
+table {
+    border: 2px solid rgba($dark-main,90%)
+}
+
+.mat-paginator {
+    background-color: transparent;
+}
+
+.mat-header-cell, .mat-cell {
+    text-align: center;
+    padding: 0 5px;
+}
+
+.mat-column-id {
+    width: 25%;
+}
+
+.mat-column-username, .mat-column-email {
+    width: 25%;
+}
+
+.mat-column-date_created {
+    width: 20%;
+}

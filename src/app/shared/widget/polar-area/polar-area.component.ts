@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { ChartComponent } from "ng-apexcharts";
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ApexAxisChartSeries, ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
@@ -23,27 +22,26 @@ export type ChartOptions = {
   templateUrl: './polar-area.component.html',
   styleUrls: ['./polar-area.component.scss']
 })
-export class PolarAreaComponent implements OnInit {
-  messFormRooms: number;
-  messUserFriends: number;
-  messUserRooms: number;
-  messUserKeepBox: number;
+export class PolarAreaComponent implements OnInit {;
+  @Input() chartRooms: number;
+  @Input() chartUserFriends: number;
+  @Input() chartUserRooms: number;
+  @Input() chartUserKeepbox: number;
 
-  @ViewChild("chart", null) chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  @ViewChild("chart", { static: false }) chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions> ;
 
   constructor( 
-    private db: AngularFirestore,
   ) {
     this.chartOptions = {
-      series: [20,23,12,41],
+      series: [0,0,0,0],
       chart: {
         type: "polarArea"
       },
-      labels: ["Public Rooms","User Friends","User Rooms","Keep Box"]
+      labels: ["User Friends","User Rooms","Keep Box"]
       ,
       stroke: {
-        colors: ["#fff"]
+        colors: ["indianred"]
       },
       fill: {
         opacity: 0.8
@@ -61,9 +59,13 @@ export class PolarAreaComponent implements OnInit {
           }
         }
       ]
-    };
+    } 
+  }
+  
+  
+  ngOnInit () {
   }
 
-  ngOnInit () {
+  ngAfterContentChecked(){
   }
 }

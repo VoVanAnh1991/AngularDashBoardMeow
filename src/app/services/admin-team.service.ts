@@ -57,10 +57,6 @@ export class AdminTeamService {
     this.db.doc('adminTeam/tasks/ongoingTasks/'+id).delete();
   }
 
-  sendMessageToAdmins(message: any){
-    this.db.collection('adminTeam/chatRoom/messages').add(message);
-  }
-
   sendToCompletedTasks(id: string, task: any){
     let adminId = JSON.parse(localStorage.getItem('adminDashboard')).email;
     this.db.doc('adminTeam/tasks/completedTasks/'+id).set({
@@ -69,5 +65,13 @@ export class AdminTeamService {
       completedDate: firebase.firestore.FieldValue.serverTimestamp(),
     });
     this.db.doc('adminTeam/tasks/ongoingTasks/'+id).delete();
+  }
+  
+  getAdminChatRoom() {
+    return this.db.collection('adminTeam/chatRoom/messages', ref => ref.orderBy('timestamp','desc')).snapshotChanges();  
+  }
+
+  sendMessageToAdmins(message: any){
+    this.db.collection('adminTeam/chatRoom/messages').add(message);
   }
 }

@@ -21,7 +21,7 @@ export class ViewUsersListComponent implements OnInit {
   loading: boolean = true;
   list : Array <any> = [];
   onlineUsers: any;
-  dataSource;
+  dataSource: any;
   displayedColumns: string[]=[
     "no", "id", "username", "nickname", "email", "isGGUser", "date_created", "action"
   ];

@@ -12,6 +12,14 @@ export class UserRoomsService {
     return this.db.collection("userRooms", ref => ref.orderBy('timestamp','desc')).snapshotChanges();
   }
 
+  getQueryEqual(ar1: string, ar2: string){
+    return this.db.collection("userRooms", ref => ref.where(ar1,'==',ar2)).snapshotChanges();
+  }
+
+  getCreatedByAdmin(){
+    return this.db.collection("userRooms", ref => ref.where('roomUserIds','array-contains','AdminTeam')).snapshotChanges();
+  }
+
   removeRoomMember(roomId: string, newRoomUserIds: any){
     return this.db.doc('userRooms/'+roomId).update({roomUserIds: newRoomUserIds})
   }

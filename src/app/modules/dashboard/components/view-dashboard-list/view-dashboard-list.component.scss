@@ -2,3 +2,62 @@ table {
     width: 100%;
 }
 
+.ongoing-tasks {
+    background: #E28D4F;
+    border: 10px solid rgba(230, 189, 160, 0.7);
+    box-sizing: border-box;
+    border-radius: 20px;   
+}
+
+.month-users {
+    background: #D95E5E;
+    border: 10px solid rgba(232, 173, 173, 0.7);
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.total-users {
+    background: #6EA34D;
+    border: 10px solid rgba(202, 227, 186, 0.7);
+    box-sizing: border-box;
+    border-radius: 20px;    
+}
+
+.mat-card {
+    color: white;
+    font-size: 60px;
+    font-family: Bookman, Tahoma, Verdana;
+    font-weight: bolder;
+    height: fit-content;
+    text-align: right;
+}
+
+.mat-card-title {
+    text-align: left !important;
+    margin: 0;
+    font-weight: bold;
+}
+
+app-card {
+    line-height: 70px;
+}
+
+.chat-room {
+    align-self: flex-end;
+    margin-bottom: 30px;
+    height: 400px;   
+}
+
+.tasks {
+    margin-top: 20px;
+}
+
+.mini-users-list {
+    align-self: flex-end;
+    margin-bottom: 30px;
+}
+
+.column {
+    display: flex;
+    flex-wrap: wrap;
+}
