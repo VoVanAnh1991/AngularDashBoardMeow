@@ -20,6 +20,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { FormsModule } from '@angular/forms';
 import { UserRoomsModule } from './modules/user-rooms/user-rooms.module';
+import { AdminListModule } from './modules/admin-list/admin-list.module';
 
 @NgModule({
   declarations: [
@@ -39,11 +40,13 @@ import { UserRoomsModule } from './modules/user-rooms/user-rooms.module';
     UserRoomsModule,
     TasksModule,
     FormsModule,
+    AdminListModule,
     BrowserAnimationsModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    NgApexchartsModule
+    NgApexchartsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

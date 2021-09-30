@@ -19,25 +19,29 @@ $light-main: #80CBC4;
 
 .mat-header-cell, .mat-cell {
     text-align: center;
+    padding: 0 5px;
 }
 
-.mat-cell-column-task {
+.mat-column-task:not(th), .mat-column-taskMessage:not(th) {
     text-align: left;
+    font-size: 12pt;
+    color: darkcyan;
 }
 
-.mat-column-id, .mat-column-data_created, .mat-column-task, .mat-column-to {
+.mat-column-tashGiverId, .mat-column-to, .mat-column-date_completed {
     width: 15%;
-    .mat-icon {
-        font-size: 20px;
-    }
 }
 
-.mat-column-assigned, .mat-column-from {
+.mat-column-task {
+    width: 20%;
+}
+
+.mat-column-taskMessage {
+    width: 25%;
+}
+
+.mat-column-from {
     width: 10%;
-}
-
-.mat-column-action {
-    width: 15%;
 }
 
 button {
@@ -60,8 +64,8 @@ button {
     margin: 0px 20px;
 }
 
-.task {
-    width: 640px;
+.message {
+    width: 90%;
 }
 
 .to, .adminId {
@@ -70,4 +74,38 @@ button {
 
 h2 {
     margin-left: 30px;
+}
+
+tr.detail-row {
+    height: 0;
+  }
+  
+  tr.element-row:not(.expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+  
+  
+.element-detail {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+.element-row td {
+    border-bottom-width: 0;
+    cursor: pointer;
+}
+
+.info {
+    margin-top: 10px;
+    margin-left: 20px;
+    text-align: left;
+}
+
+.action-btns{
+    margin-bottom: 10px;
 }

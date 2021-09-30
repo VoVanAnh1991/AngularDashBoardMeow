@@ -23,7 +23,7 @@ export class ViewUsersListComponent implements OnInit {
   onlineUsers: any;
   dataSource;
   displayedColumns: string[]=[
-    "no", "id", "username", "nickname", "email", "isGGUser", "data_created", "action"
+    "no", "id", "username", "nickname", "email", "isGGUser", "date_created", "action"
   ];
   
   editing: boolean = false;

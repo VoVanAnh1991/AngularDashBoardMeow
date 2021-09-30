@@ -13,12 +13,9 @@ $light-main: #80CBC4;
     background-color: transparent;
 }
 
-.mat-header-cell {
+.mat-header-cell, .mat-cell {
     text-align: center;
-}
-
-.mat-cell {
-    text-align: center;
+    padding: 0 5px;
 }
 
 .mat-column-id, .mat-column-roomId, .mat-column-nickname, .mat-column-email {
@@ -37,7 +34,7 @@ $light-main: #80CBC4;
     width: 11%;
 }
 
-.mat-column-action, .mat-column-data_created, .mat-column-roomType{
+.mat-column-action, .mat-column-date_created, .mat-column-roomType{
     width: 10%;
 }
 

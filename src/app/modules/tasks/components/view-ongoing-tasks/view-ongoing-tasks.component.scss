@@ -19,17 +19,25 @@ $light-main: #80CBC4;
 
 .mat-header-cell, .mat-cell {
     text-align: center;
+    padding: 0 5px;
 }
 
-.mat-cell-column-task {
+.mat-column-task:not(th) {
     text-align: left;
+    font-size: 12pt;
+    color: darkcyan;
 }
 
-.mat-column-id, .mat-column-data_created, .mat-column-task, .mat-column-to {
-    width: 16%;
+
+.mat-column-id, .mat-column-date_created, .mat-column-to {
+    width: 15%;
     .mat-icon {
         font-size: 20px;
     }
+}
+
+.mat-column-task {
+    width: 19%;
 }
 
 .mat-column-assigned, .mat-column-from {

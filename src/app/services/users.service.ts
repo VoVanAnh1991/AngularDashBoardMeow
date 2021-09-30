@@ -15,6 +15,10 @@ export class UsersService {
   getOnlineUsers(){
     return this.db.collection("status", ref => ref.where("status",'==',"online")).snapshotChanges();
   }
+  
+  getOneUser(id: string){
+    return this.db.doc("users/"+id).get()
+  }
 
   upadateOnlineUsers(){
     let userStatuses: Array<any>;

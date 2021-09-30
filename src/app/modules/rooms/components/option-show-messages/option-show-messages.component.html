@@ -40,7 +40,7 @@
             </div>
 
             <div class="input" fxLayout >            
-                <mat-form-field class="example-full-width" appearance="outline">
+                <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Annouce to Room</mat-label>
                     <textarea [(ngModel)]="newAnnouncement" matInput placeholder="Make a new announcement"></textarea>
                 </mat-form-field>
@@ -48,7 +48,7 @@
                 <button mat-mini-fab class="submit-btn" color="warn"
                     [ngStyle]="{color: 'white', backgroundColor: '#66BB6A'}"
                     (click)="onSubmit()" >
-                <mat-icon>add</mat-icon></button>
+                <mat-icon>message</mat-icon></button>
                 
                 <button mat-mini-fab class="delete-btn" color="warn"
                     [ngStyle]="{color: 'white', backgroundColor: 'indianred'}"

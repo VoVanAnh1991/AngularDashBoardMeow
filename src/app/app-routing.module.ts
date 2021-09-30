@@ -11,6 +11,7 @@ import { ForgotPasswordComponent } from './modules/forgot-password/forgot-passwo
 import { SignUpComponent } from './modules/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './modules/verify-email/verify-email.component';
 import { ViewUserRoomsListComponent } from './modules/user-rooms/components/view-user-rooms-list/view-user-rooms-list.component';
+import { ViewAdminListComponent } from './modules/admin-list/components/view-admin-list/view-admin-list.component';
 import { OptionShowInfoComponent } from './modules/rooms/components/option-show-info/option-show-info.component';
 import { OptionShowMessagesComponent } from './modules/rooms/components/option-show-messages/option-show-messages.component';
 import { OptionAnnouncementHistoryComponent } from './modules/rooms/components/option-announcement-history/option-announcement-history.component';
@@ -21,8 +22,9 @@ import { ViewCompletedTasksComponent } from './modules/tasks/components/view-com
 const routes: Routes = [
   {
     path: '',
-    component: DefaultComponent,
-    // component: ViewDashboardListComponent,
+    // component: DefaultComponent,
+    component: ViewDashboardListComponent,
+    // component: ViewAdminListComponent,
     // component: ViewCompletedTasksComponent,
     // component: ViewMyTasksComponent,
     // component: ViewOngoingTasksComponent,
@@ -58,6 +60,11 @@ const routes: Routes = [
      {
       path: 'tasks',
       component: ViewTasksListComponent,
+      canActivate: [AuthGuard]
+     }, 
+     {
+      path: 'admin-list',
+      component: ViewAdminListComponent,
       canActivate: [AuthGuard]
      }, 
    ]

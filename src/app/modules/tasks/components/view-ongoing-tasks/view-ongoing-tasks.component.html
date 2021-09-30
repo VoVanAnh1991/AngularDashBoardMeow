@@ -65,9 +65,10 @@
                         placeholder="Enter task">
                     </mat-form-field>
                     
-                    <button mat-mini-fab color="accent"
-                        [ngStyle]="{color: 'white', backgroundColor: '#66BB6A'}"
-                        type="submit" >
+                    <button mat-mini-fab
+                            [disabled]="!newTaskForm.valid" 
+                            [ngStyle]="newTaskForm.valid && {color: 'white', backgroundColor: '#66BB6A'}"
+                            type="submit" >
                     <mat-icon>check</mat-icon></button>
                 </form>
             </div>
@@ -92,7 +93,7 @@
                                 [checked]="element.to"
                                 [disabled]="element.to"
                                 color="primary"
-                                (click)="onAssignTask(element.id)">
+                                (click)="!element.to && onAssignTask(element.id)">
                             </mat-checkbox>
                         </td>
                     </ng-container>
@@ -117,7 +118,7 @@
                         <td mat-cell *matCellDef="let element"> {{ element.to }} </td>
                     </ng-container>
                     
-                    <ng-container matColumnDef="data_created">
+                    <ng-container matColumnDef="date_created">
                         <th mat-header-cell *matHeaderCellDef>Date Created</th>
                         <td mat-cell *matCellDef="let element">
                             {{ element.timestamp.toDate().toLocaleString() }} 

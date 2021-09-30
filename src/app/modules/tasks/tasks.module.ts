@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewCompletedTasksComponent } from './components/view-completed-tasks/view-completed-tasks.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [ViewTasksListComponent, ViewOngoingTasksComponent, ViewMyTasksComponent, ViewCompletedTasksComponent],
@@ -31,6 +32,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCheckboxModule,
     FlexLayoutModule,
     ReactiveFormsModule,
+    NoopAnimationsModule,
+    BrowserAnimationsModule,
   ]
 })
 export class TasksModule { }

@@ -15,6 +15,7 @@ $light-main: #80CBC4;
 
 .mat-header-cell, .mat-cell {
     text-align: center;
+    padding: 0 5px;
 }
 
 .mat-column-id {
@@ -28,7 +29,7 @@ $light-main: #80CBC4;
     width: 15%;
 }
 
-.mat-column-isGGUser, .mat-column-data_created, .mat-column-action {
+.mat-column-isGGUser, .mat-column-date_created, .mat-column-action {
     width: 11%;
 }
 

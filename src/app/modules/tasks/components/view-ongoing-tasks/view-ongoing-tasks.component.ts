@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { AdminTeamService } from 'src/app/services/admin-team.service';
 import firebase from 'firebase';
@@ -24,17 +24,16 @@ export class ViewOngoingTasksComponent implements OnInit {
   adminList : Array <any> = [];
   dataSource: any;
   displayedColumns: string[]=[
-    "no", "assigned", "task", "from", "taskGiverId", "to", "data_created", "action"
+    "no", "assigned", "task", "from", "taskGiverId", "to", "date_created", "action"
   ];
   
   adding: boolean = false;
   deleting: boolean = false;
   
   newTaskForm = new FormGroup({
-    task: new FormControl(''),
+    task: new FormControl('', [Validators.required]),
     to: new FormControl(''),
   });
-
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   
@@ -48,15 +47,24 @@ export class ViewOngoingTasksComponent implements OnInit {
   ngOnInit(): void {
     this.adminId = JSON.parse(localStorage.getItem('adminDashboard')).email;
 
-    let allTasks: any;
     this.adminTeamService.getOngoingTasks().subscribe(tasks => {
-      allTasks = tasks.map((task, index) => {
+      this.list = tasks.map((task, index) => {
         return {
+          taskMessage: null,
+          no: tasks.length -index,
           id: task.payload.doc.id,
           ...(task.payload.doc.data() as {})
         }
       })
-      this.list = allTasks.filter((task: any) => task.to == this.adminId);
+
+      this.adminTeamService.getAllAdmins().subscribe(admins => {
+        this.adminList = admins.map(admin => {
+          return {
+            ...(admin.payload.doc.data() as {}),
+          }
+        })
+      })
+
       this.dataSource = new MatTableDataSource<any>(this.list)
       this.dataSource.paginator = this.paginator;
       this.loading = false;
@@ -70,28 +78,64 @@ export class ViewOngoingTasksComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  assignTaskSnackBar(mess: string, action: string, actionInfo: string): void {   
+  onAssignTask(taskId: string){
+    this.adminTeamService.updateTask(taskId, {to: this.adminId});
+  }
+  
+  onAddTask() {  
+    this.adding = true;
+  }
+
+  onCancelAddTask() {  
+    this.adding = false;
+    this.applyFilter('');
+  }
+
+  onSubmit() {
+    let newTask = {
+      ...this.newTaskForm.value,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      from: 'admin',
+      adminId: this.adminId,
+    };
+    
+    this.adminTeamService.addTask(newTask);
+    this.newTaskForm.reset();
+  }
+
+  onDeleteTask(id:string, task: string){
+    this.deleting = true;
+    this.deleteTaskSnackBar(
+      `Delete task " ${task} "?`, 'Delete', id
+    );
+  }
+
+  deleteTaskSnackBar(mess: string, action: string, actionInfo: string): void {   
     let snackBarRef = this._snackBar.open(mess, action, {
       duration: 3000,
       ...this.snackBarStyle,
     });
     snackBarRef.onAction().subscribe(() => {
-      this.adminTeamService.updateTask(actionInfo, {to: this.adminId});
+      this.adminTeamService.deleteTask(actionInfo);
     });
     snackBarRef.afterDismissed().subscribe((info) => {
       this.deleting = false;
-      if (info.dismissedByAction) 
-        this.alertSnackBar('Move this task to your Task List".')
-      else {
-        this.adminTeamService.updateTask(actionInfo, {to: null})
-        this.alertSnackBar('Cancel assign task.');
-      }     
+      info.dismissedByAction? 
+        this.alertSnackBar('Task is deleted.')
+        : this.alertSnackBar('Cancel deleting task.')
     })
   }
 
   alertSnackBar(mess: string): void {   
     this._snackBar.open(mess, null, {
       duration: 3000,
+      ...this.snackBarStyle
+    });
+  }
+
+  alertLongerSnackBar(mess: string): void {   
+    this._snackBar.open(mess, null, {
+      duration: 5000,
       ...this.snackBarStyle
     });
   }

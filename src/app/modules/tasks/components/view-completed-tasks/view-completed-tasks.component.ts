@@ -1,17 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { AdminTeamService } from 'src/app/services/admin-team.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import { UsersService } from 'src/app/services/users.service';
 import firebase from 'firebase';
-
+import { UserRoomsService } from 'src/app/services/user-rooms.service';
 
 @Component({
   selector: 'app-view-completed-tasks',
   templateUrl: './view-completed-tasks.component.html',
-  styleUrls: ['./view-completed-tasks.component.scss']
+  styleUrls: ['./view-completed-tasks.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ViewCompletedTasksComponent implements OnInit {
-
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   snackBarStyle = {
@@ -20,37 +27,52 @@ export class ViewCompletedTasksComponent implements OnInit {
     panelClass: ['my-snack-bar'],
   }
   
+  list : Array <any> = [];
   adminId: string;
   loading: boolean = true;
-  list : Array <any> = [];
-  adminList : Array <any> = [];
+  gettingInfo: boolean = false;
+  showInfo: boolean = false;
+  
   dataSource: any;
+  message: string;
+  taskGiverInfo: any;
   displayedColumns: string[]=[
-    "no", "assigned", "task", "from", "taskGiverId", "to", "data_created", "action"
+    "no", "task", "from", "taskGiverId", "to", "taskMessage", "date_completed"
   ];
-  
-  adding: boolean = false;
-  deleting: boolean = false;
-  
-  newTaskForm = new FormGroup({
-    task: new FormControl(''),
-    to: new FormControl(''),
-  });
-
+  expandedElement: any;
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   
   constructor( 
     public adminTeamService: AdminTeamService,
+    public usersService: UsersService,
+    public userRoomsService: UserRoomsService,
     private _snackBar: MatSnackBar
     ) { 
       
   }
+
+  getUserInfo(id: string){
+    this.gettingInfo = true;
+    this.showInfo = true;
+    this.usersService.getOneUser(id).subscribe(result => {
+      this.taskGiverInfo = result.data();
+      this.gettingInfo = false
+    })
+  }
+
+  getAdminInfo(id: string){
+    this.gettingInfo = true;
+    this.showInfo = true;
+    this.adminTeamService.getOneAdmin(id).subscribe(result => {
+      this.taskGiverInfo = result.data();
+      this.gettingInfo = false;
+    }) 
+  }
   
   ngOnInit(): void {
     this.adminId = JSON.parse(localStorage.getItem('adminDashboard')).email;
-    
-    this.adminTeamService.getOngoingTasks().subscribe(tasks => {
+    this.adminTeamService.getCompletedTasks().subscribe(tasks => {
       this.list = tasks.map((task, index) => {
         return {
           id: task.payload.doc.id,
@@ -58,96 +80,15 @@ export class ViewCompletedTasksComponent implements OnInit {
           ...(task.payload.doc.data() as {})
         }
       })
+
       this.dataSource = new MatTableDataSource<any>(this.list)
       this.dataSource.paginator = this.paginator;
       this.loading = false;
     }) 
-    
-    this.adminTeamService.getAllAdmins().subscribe(admins => {
-      this.adminList = admins.map(admin => {
-        return {
-          ...(admin.payload.doc.data() as {}),
-        }
-      })
-    })
   }
 
-  applyFilter(filterValue): void {
+  applyFilter(filterValue: any): void {
     filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
-
-  onAssignTask(taskId: string){
-    this.assignTaskSnackBar('Assign for this Task','Assign',taskId)
-
-  }
-
-  assignTaskSnackBar(mess: string, action: string, actionInfo: string): void {   
-    let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 3000,
-      ...this.snackBarStyle,
-    });
-    snackBarRef.onAction().subscribe(() => {
-      this.adminTeamService.updateTask(actionInfo, {to: this.adminId});
-    });
-    snackBarRef.afterDismissed().subscribe((info) => {
-      this.deleting = false;
-      info.dismissedByAction? 
-        this.alertSnackBar('Move this task to your Task List".')
-        : this.alertSnackBar('Cancel assign task.')
-    })
-  }
-
-  
-  onAddTask() {  
-    this.adding = true;
-  }
-
-  onCancelAddTask() {  
-    this.adding = false;
-    this.applyFilter('');
-  }
-
-  onSubmit() {
-    let newTask = {
-      ...this.newTaskForm.value,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      from: 'admin',
-      adminId: this.adminId,
-    };
-    
-    this.adminTeamService.addTask(newTask);
-    this.newTaskForm.reset();
-  }
-
-  onDeleteTask(id:string, task: string){
-    this.deleting = true;
-    this.deleteTaskSnackBar(
-      `Delete task " ${task} "?`, 'Delete', id
-    );
-  }
-
-  deleteTaskSnackBar(mess: string, action: string, actionInfo: string): void {   
-    let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 3000,
-      ...this.snackBarStyle,
-    });
-    snackBarRef.onAction().subscribe(() => {
-      this.adminTeamService.deleteTask(actionInfo);
-    });
-    snackBarRef.afterDismissed().subscribe((info) => {
-      this.deleting = false;
-      info.dismissedByAction? 
-        this.alertSnackBar('Task is deleted.')
-        : this.alertSnackBar('Cancel deleting task.')
-    })
-  }
-
-  alertSnackBar(mess: string): void {   
-    this._snackBar.open(mess, null, {
-      duration: 3000,
-      ...this.snackBarStyle
-    });
-  }
-
 }

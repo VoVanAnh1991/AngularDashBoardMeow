@@ -31,10 +31,10 @@
                     </mat-form-field> 
                     
                     <button mat-raised-button color="primary"
-                    [disabled]="!newRoomName || allRoomNames.includes(newRoomName)"    
-                    [ngStyle]="!(!newRoomName || allRoomNames.includes(newRoomName)) 
-                        && {color: 'white', backgroundColor: '#66BB6A'}"
-                    (click)="addRoom(newRoomName)" >
+                        [disabled]="!newRoomName || allRoomNames.includes(newRoomName)"    
+                        [ngStyle]="!(!newRoomName || allRoomNames.includes(newRoomName)) 
+                            && {color: 'white', backgroundColor: '#66BB6A'}"
+                        (click)="addRoom(newRoomName)" >
                     <mat-icon>add</mat-icon></button>
                 </div>
 
@@ -43,8 +43,7 @@
                     <div class="btnGoTo">
                         <mat-form-field *ngIf="selectedRoom+1 && selectedRoom != addRoomOption.id">
                             <mat-label>Select Action</mat-label>
-                            <mat-select
-                                        [(value)]="selectedAction">
+                            <mat-select [(value)]="selectedAction">
                                 <ng-container *ngFor="let option of actionOptions">
                                     <mat-option [value]="option"
                                         color="warn"> {{option}}

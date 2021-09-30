@@ -1,21 +1,6 @@
 <div class="ongoing-task" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="120px">
     <div fxFlex="120" >
-        <div>      
-            <div fxFlex="7">
-                <button mat-mini-fab
-                    [disabled]="deleting"
-                    *ngIf="!adding"
-                    [ngStyle]="!deleting && {color: 'white', backgroundColor: '#355061'}"
-                    (click)="onAddTask()" >
-                <mat-icon>add</mat-icon></button>
-                
-                <button mat-mini-fab color="primary"
-                    *ngIf="adding"
-                    [ngStyle]="{color: 'white', backgroundColor: '#8D6E63'}"
-                    (click)="onCancelAddTask()" >
-                <mat-icon>close</mat-icon></button>
-            </div>
-      
+        <div>           
             <mat-form-field *ngIf="!adding" color="warn"
                             fxFlex="30" appearance="outline">
                 <mat-label>Searching</mat-label>
@@ -32,54 +17,13 @@
             
         </div>
 
-        <div *ngIf="adding" >
-            <div class="add-new-user-form">
-                <form [formGroup] = "newTaskForm"
-                    (ngSubmit) = "onSubmit()">
-                    <h2 class="header-h2"> Create New Task </h2>
-
-                    <mat-form-field class="adminId" color="primary" appearance="outline">
-                      <mat-label>Your admin Id</mat-label>
-                      <input matInput disabled
-                            [value]="adminId"
-                            placeholder="Admin Id">
-                    </mat-form-field>
-
-                    <mat-form-field class="to" hideRequiredMarker="true" appearance="outline">
-                        <mat-label>Assigned this task to</mat-label>
-                        <mat-select formControlName="to">
-                            <mat-option></mat-option>
-                            <ng-container *ngFor="let admin of adminList, let i = index">
-                                <mat-option
-                                    [value]="admin.email"
-                                    color="warn"> {{ admin.email }}
-                                </mat-option>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field class="task" color="primary" appearance="outline">
-                        <mat-label>Enter task</mat-label>
-                        <input matInput 
-                        formControlName="task"
-                        placeholder="Enter task">
-                    </mat-form-field>
-                        
-                    <button mat-mini-fab 
-                        [ngStyle]="{color: 'white', backgroundColor: '#66BB6A'}"
-                        type="submit" >
-                    <mat-icon>check</mat-icon></button>
-                </form>
-            </div>
-        </div>
-
         <div *ngIf="loading">
             <app-progress-bar></app-progress-bar>
         </div>
         
         <div class="mat-elevation-z8" *ngIf="!loading">
             <div fxFlex="120" >
-                <table mat-table [dataSource]="dataSource">
+                <table mat-table multiTemplateDataRows [dataSource]="dataSource">
                     <ng-container matColumnDef="no">
                         <th mat-header-cell *matHeaderCellDef> # </th>
                         <td mat-cell *matCellDef="let element"> {{ element.no }} </td>
@@ -91,8 +35,7 @@
                             <mat-checkbox
                                 [checked]="element.to"
                                 [disabled]="element.to"
-                                color="primary"
-                                (click)="onAssignTask(element.id)">
+                                color="primary">
                             </mat-checkbox>
                         </td>
                     </ng-container>
@@ -109,39 +52,151 @@
                     
                     <ng-container matColumnDef="taskGiverId">
                         <th mat-header-cell *matHeaderCellDef>Task Giver Id</th>
-                        <td mat-cell *matCellDef="let element"> {{ element.userId? element.userId : element.adminId }} </td>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{ element.userId? element.userId : element.adminId }} 
+                        </td>
                     </ng-container>
                     
-                    <ng-container matColumnDef="to">
-                        <th mat-header-cell *matHeaderCellDef>To</th>
-                        <td mat-cell *matCellDef="let element"> {{ element.to }} </td>
+                    <ng-container matColumnDef="taskMessage">
+                        <th mat-header-cell *matHeaderCellDef>Task Message</th>
+                        <td mat-cell *matCellDef="let element"> {{ element.taskMessage }} </td>
                     </ng-container>
                     
-                    <ng-container matColumnDef="data_created">
+                    <ng-container matColumnDef="date_created">
                         <th mat-header-cell *matHeaderCellDef>Date Created</th>
                         <td mat-cell *matCellDef="let element">
                             {{ element.timestamp.toDate().toLocaleString() }} 
                         </td>
                     </ng-container>
+                        
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="element-detail"
+                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                <div class="action-options">
+                                    <mat-form-field class="action-select" hideRequiredMarker="true" 
+                                                    appearance="outline"
+                                                    (click)="showInfo = false; showMessageInput = false"
+                                        >
+                                        <mat-label>Select an action</mat-label>
+                                        <mat-select [(value)]="taskAction">    
+                                            <mat-option></mat-option>
+                                            <mat-option *ngIf="element.from == 'admin'"
+                                                        value="admin-info"
+                                                > Admin Info </mat-option>
+                                            <mat-option *ngIf="element.from == 'admin'" 
+                                                        value="send-message-to-admins"
+                                                > Send Message To Admins </mat-option>
+                                            <mat-option *ngIf="element.from == 'user'" 
+                                                        value="user-info"
+                                                > User Info </mat-option>
+                                            <mat-option *ngIf="element.from == 'user'"
+                                                        value="send-message-to-user"
+                                                > Send Message To User </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
     
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef>Action</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button mat-mini-fab color="warn"
-                                [disabled]="deleting"
-                                [ngStyle]="!deleting && {color: 'white', backgroundColor: 'indianred', margin: '5px'}"
-                                (click)="onDeleteTask(element.id, element.task)"
-                            ><mat-icon>exit_to_app</mat-icon></button>
-                            <button mat-mini-fab
-                                [disabled]="deleting" 
-                                [ngStyle]="!deleting && {color: 'white', backgroundColor: '#66BB6A'}"
-                                (click)="onDeleteTask(element.id, element.task)"
-                            ><mat-icon>delete</mat-icon></button>
+                                    <div class="action-btns">
+                                        <button mat-mini-fab
+                                                [ngStyle]="{color: 'white', backgroundColor: 'indianred', margin: '5px'}"
+                                                (click)="onGiveUpTask(element.id)"
+                                                ><mat-icon>exit_to_app</mat-icon></button>
+                                        <button mat-mini-fab
+                                                [disabled]="!element.taskMessage" 
+                                                [ngStyle]="element.taskMessage && {color: 'white', backgroundColor: '#66BB6A'}"
+                                                (click)="sendToCompletedTasks(element)"
+                                        ><mat-icon>check</mat-icon></button>
+                                    
+                                        
+                                        <div class="action-options" fxFlex="5" [ngSwitch]="taskAction">
+                                            <ng-container *ngSwitchCase="'admin-info'">
+                                                <button mat-mini-fab
+                                                    [ngStyle]="{color: 'white', backgroundColor: '#355061'}"
+                                                    (click)="getAdminInfo(element.adminId)"
+                                                    ><mat-icon>perm_identity</mat-icon></button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'send-message-to-admins'">
+                                                <button mat-mini-fab
+                                                    [disabled]="element.taskMessage"
+                                                    [ngStyle]="!element.taskMessage &&{color: 'white', backgroundColor: '#66BB6A'}"
+                                                    (click)="onShowMessageInput(element.id, element.adminId, element.from)"
+                                                    ><mat-icon>message</mat-icon></button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'user-info'">
+                                                <button mat-mini-fab
+                                                    [ngStyle]="{color: 'white', backgroundColor: '#355061'}"
+                                                    (click)="getUserInfo(element.userId)"
+                                                    ><mat-icon>perm_identity</mat-icon></button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'send-message-to-user'">
+                                                <button mat-mini-fab
+                                                    [disabled]="element.taskMessage"
+                                                    [ngStyle]="!element.taskMessage && {color: 'white', backgroundColor: '#66BB6A'}"
+                                                    (click)="onShowMessageInput(element.id, element.userId, element.from)"
+                                                    ><mat-icon>message</mat-icon></button>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div *ngIf="gettingInfo">
+                                    <app-progress-bar></app-progress-bar>
+                                </div>
+
+                                <div fxFlex="120" *ngIf="showMessageInput">
+                                    <div *ngIf="!gettingInfo">
+                                        <mat-form-field class="message" appearance="outline">
+                                            <mat-label>Enter message</mat-label>
+                                            <input matInput [(ngModel)]="taskMessage"
+                                                placeholder="Enter message">
+                                            <mat-hint [ngStyle]="{color: 'red'}"
+                                                >{{taskGiverInfo? taskGiverInfo.username : 'User is deleted'}}</mat-hint>
+                                        </mat-form-field>
+
+                                        <button mat-mini-fab
+                                            *ngIf="element.from=='admin' || !taskGiverInfo"
+                                            [disabled]="!taskMessage"
+                                            [ngStyle]="taskMessage && {color: 'white', backgroundColor: '#FF8A65'}"
+                                            (click)="sendMessageToAdmins(element.id, element.adminId, taskMessage, element.no)"
+                                            ><mat-icon>send</mat-icon></button>
+                                        <button mat-mini-fab
+                                            *ngIf="element.from=='user' && taskGiverInfo"
+                                            [disabled]="!taskMessage"
+                                            [ngStyle]="taskMessage && {color: 'white', backgroundColor: '#F48FB1'}"
+                                            (click)="sendMessageToUser(element.id, element.userId, taskMessage, element.task)"
+                                            ><mat-icon>send</mat-icon></button>
+                                    </div>
+                                </div>
+
+                                <div fxFlex="120" *ngIf="showInfo">
+                                    <div *ngIf="!gettingInfo">
+                                        <h2 class="header-h2">Info</h2>
+                                        <div *ngIf="element.from == 'admin'">
+                                            <h3>Admin username : {{taskGiverInfo?.username}}</h3>
+                                            <h3>Admin email : {{taskGiverInfo?.email}}</h3>
+                                        </div>
+                                        
+                                        <div *ngIf=" element.from == 'user'">
+                                            <h3>Username : {{taskGiverInfo? taskGiverInfo.username : 'User is deleted'}}</h3>
+                                            <h3>Nickname : {{taskGiverInfo? taskGiverInfo.nickname : 'User is deleted'}}</h3>
+                                            <h3>Email : {{taskGiverInfo? taskGiverInfo.email : 'User is deleted'}}</h3>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>
                         </td>
                     </ng-container>
-    
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns">
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns">
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+                        class="element-row"
+                        [class.expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element;         
+                        taskAction = null; taskGiverInfo = null; showMessageInput = false; showInfo = false">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
                 </table>
             </div>            
         </div>

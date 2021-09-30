@@ -8,10 +8,10 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./view-dashboard-list.component.scss']
 })
 export class ViewDashboardListComponent implements OnInit {
-  lists : Array <any> = []
+  list : Array <any> = []
   userDataSource: any;
   displayedColumns: string[]=[
-    "id", "username", "password", "data_created"
+    "id", "username", "password", "date_created"
   ];
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;

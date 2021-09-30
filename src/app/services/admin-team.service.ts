@@ -32,6 +32,14 @@ export class AdminTeamService {
     return this.db.collection('adminTeam/adminManager/admins/').snapshotChanges();
   }
 
+  getOneAdmin(id: string){
+    return this.db.doc('adminTeam/adminManager/admins/'+id).get();
+  }
+
+  getCompletedTasks(){
+    return this.db.collection('adminTeam/tasks/completedTasks', ref => ref.orderBy('completedDate', 'desc'))
+    .snapshotChanges()
+  }
   getOngoingTasks(){
     return this.db.collection('adminTeam/tasks/ongoingTasks', ref => ref.orderBy('timestamp', 'desc'))
     .snapshotChanges()
@@ -49,4 +57,17 @@ export class AdminTeamService {
     this.db.doc('adminTeam/tasks/ongoingTasks/'+id).delete();
   }
 
+  sendMessageToAdmins(message: any){
+    this.db.collection('adminTeam/chatRoom/messages').add(message);
+  }
+
+  sendToCompletedTasks(id: string, task: any){
+    let adminId = JSON.parse(localStorage.getItem('adminDashboard')).email;
+    this.db.doc('adminTeam/tasks/completedTasks/'+id).set({
+      ...task,
+      completedBy: adminId,
+      completedDate: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    this.db.doc('adminTeam/tasks/ongoingTasks/'+id).delete();
+  }
 }
