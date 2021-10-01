@@ -1,10 +1,31 @@
-<div id="chart">
-    <apx-chart
-      [series]="[chartUserFriends,chartUserRooms,chartUserKeepbox]"
-      [chart]="chartOptions.chart"
-      [labels]="chartOptions.labels"
-      [fill]="chartOptions.fill"
-      [stroke]="chartOptions.stroke"
-      [responsive]="chartOptions.responsive"
-    ></apx-chart>
+<div class="polar-area-container">
+  <button mat-mini-fab
+    [ngStyle]="{color: 'white', backgroundColor: '#00796B', textShadow: 'none'}"
+    (click)="reloadChildView()" >
+  <mat-icon>refresh</mat-icon></button>
+
+  <div id="chart" *ngIf="!isReloaded" fxFlex="120">    
+        <apx-chart
+          [series]="[chartRooms, chartUserFriends_Admin, chartUserFriends_Personal ,chartUserRooms,chartUserKeepbox]"
+          [chart]="chartOptions.chart"
+          [labels]="chartOptions.labels"
+          [fill]="chartOptions.fill"
+          [stroke]="chartOptions.stroke"
+          [responsive]="chartOptions.responsive"
+        ></apx-chart>
+    </div>
+
+  <div id="chart" fxFlex="120">
+    <ng-container #vc></ng-container>     
+    <ng-template #tpl>
+      <apx-chart
+            [series]="[chartRooms, chartUserFriends_Admin, chartUserFriends_Personal ,chartUserRooms,chartUserKeepbox]"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [fill]="chartOptions.fill"
+            [stroke]="chartOptions.stroke"
+            [responsive]="chartOptions.responsive"
+      ></apx-chart>
+    </ng-template>
   </div>
+</div>

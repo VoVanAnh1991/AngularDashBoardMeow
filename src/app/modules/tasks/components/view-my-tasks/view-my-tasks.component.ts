@@ -135,7 +135,7 @@ export class ViewMyTasksComponent implements OnInit {
       adminId: this.adminId,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     }
-    this.adminTeamService.sendMessageToAdmins(message);
+    this.adminTeamService.sendMessageToAdmins(message, {isTask: true});
     this.adminTeamService.updateTask(taskId, {taskMessage});
   }
 

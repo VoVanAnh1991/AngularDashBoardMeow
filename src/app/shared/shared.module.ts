@@ -21,29 +21,21 @@ import { PieComponent } from './widget/pie/pie.component';
 import { ColumnComponent } from './widget/column/column.component';
 import { PolarAreaComponent } from './widget/polar-area/polar-area.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { ViewDashboardListComponent } from '../modules/dashboard/components/view-dashboard-list/view-dashboard-list.component';
 import { MatCheckboxModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatProgressBarModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 import { ProgressBarComponent } from './widget/progress-bar/progress-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MiniTasksListComponent } from './widget/mini-tasks-list/mini-tasks-list.component';
-import { MiniUsersListComponent } from './widget/mini-users-list/mini-users-list.component';
-import { AdminChatRoomComponent } from './widget/admin-chat-room/admin-chat-room.component';
 
 @NgModule ({
     declarations: [
         HeaderComponent, 
         SidebarComponent, 
         FooterComponent, 
-        ViewDashboardListComponent,
         DefaultComponent,
         CardComponent,
         PieComponent,
         ColumnComponent,
         PolarAreaComponent,
         ProgressBarComponent,
-        MiniUsersListComponent,
-        MiniTasksListComponent,
-        AdminChatRoomComponent,
     ],
     imports: [
         CommonModule,
@@ -75,15 +67,11 @@ import { AdminChatRoomComponent } from './widget/admin-chat-room/admin-chat-room
         SidebarComponent, 
         FooterComponent, 
         DefaultComponent,
-        ViewDashboardListComponent,
         CardComponent,
         PieComponent,
         ColumnComponent,
         PolarAreaComponent,
         ProgressBarComponent,
-        MiniUsersListComponent,
-        MiniTasksListComponent,
-        AdminChatRoomComponent,
     ]
 })
 

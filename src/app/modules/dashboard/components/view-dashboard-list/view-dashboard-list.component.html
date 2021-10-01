@@ -9,20 +9,20 @@
         class="state-cards"
     >
         <mat-card class="ongoing-tasks" fxFlex="25">
-            <mat-card-title>Ongoing Tasks</mat-card-title>
             <app-card
+                    [label]="'Ongoing Tasks'"
                     [total]="totalTasks"
             ></app-card>
         </mat-card>
         <mat-card class="month-users" fxFlex="25">
-            <mat-card-title>Users this Month</mat-card-title>
             <app-card 
-            [total]="totalMonthUsers"
+                    [label]="'Users this Month'"
+                    [total]="totalMonthUsers"
             ></app-card>
         </mat-card>
         <mat-card class="total-users" fxFlex="25">
-            <mat-card-title>Total Users</mat-card-title>
             <app-card 
+                    [label]="'Total Users'"
                     [total]="totalUsers"
             ></app-card>
         </mat-card>
@@ -30,38 +30,44 @@
     <br>
     <mat-divider></mat-divider>
 
-    <div>
-        <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
-            <div class="column" fxFlex="60">
-                <div class="tasks" fxFlex="120">
-                    <h1 class="header-h1">Ongoing Tasks</h1>
-                    <app-mini-tasks-list></app-mini-tasks-list>
-                </div>            
 
-                <div class="chat-room" fxFlex="120">
-                    <h1 class="header-h1">Admin Chat Room</h1>
-                    <div class="chat-box">
-                        <app-admin-chat-room></app-admin-chat-room>
-                    </div>
-                </div>  
+    <div class="tables-and-chart" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
+        <div class="column" fxFlex="60">
+            <div class="tasks" fxFlex="120">
+                <h1 class="header-h1">Ongoing Tasks</h1>
+                <app-mini-tasks-list></app-mini-tasks-list>
+            </div>            
 
-            </div>
-
-            <div class="column" fxFlex="60">
-                <div class="chart" fxFlex="120">
-                    <app-polar-area [chartRooms]="rooms"
-                                    [chartUserFriends]="userFriends"
-                                    [chartUserRooms]="userRooms"
-                                    [chartUserKeepbox]="userKeepbox"
-                    ></app-polar-area>
+            <div class="chat-room" fxFlex="120">
+                <h1 class="header-h1">Admin Chat Room</h1>
+                <div class="chat-box">
+                    <app-admin-chat-room></app-admin-chat-room>
                 </div>
-              
-                <div class="mini-users-list" fxFlex="120">
-                    <h1 class="header-h1">Reccent Sign Up Users</h1>
-                    <app-mini-users-list></app-mini-users-list>    
-                </div>        
+            </div>  
 
+        </div>
+
+        <div class="column" fxFlex="60">
+            <h1 fxFlex="120" class="header-h1">All Room Types
+                <span> (Total: 
+                    {{rooms + userFriends + userRooms + userKeepbox}} rooms)</span>
+                </h1>
+                <div class="chart" fxFlex="120">
+                <app-polar-area fxFlex="120"
+                                [chartRooms]="rooms"
+                                [chartUserFriends_Admin]="userFriends_Admin"
+                                [chartUserFriends_Personal]="userFriends_Personal"
+                                [chartUserRooms]="userRooms"
+                                [chartUserKeepbox]="userKeepbox"
+                ></app-polar-area>
             </div>
+            
+            <div class="mini-users-list" fxFlex="120">
+                <h1 class="header-h1">Reccent Sign Up Users</h1>
+                <app-mini-users-list></app-mini-users-list>    
+            </div>        
+
         </div>
     </div>
+
 </div>

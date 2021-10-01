@@ -71,7 +71,7 @@ export class AdminTeamService {
     return this.db.collection('adminTeam/chatRoom/messages', ref => ref.orderBy('timestamp','desc')).snapshotChanges();  
   }
 
-  sendMessageToAdmins(message: any){
-    this.db.collection('adminTeam/chatRoom/messages').add(message);
+  sendMessageToAdmins(message: any, ...additional: any){
+    this.db.collection('adminTeam/chatRoom/messages').add({...message, ...additional});
   }
 }

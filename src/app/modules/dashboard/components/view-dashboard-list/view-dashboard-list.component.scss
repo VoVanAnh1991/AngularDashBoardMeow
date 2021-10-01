@@ -38,18 +38,20 @@ table {
     font-weight: bold;
 }
 
-app-card {
-    line-height: 70px;
-}
-
 .chat-room {
+    min-height: calc(100% - 400px);
     align-self: flex-end;
     margin-bottom: 30px;
-    height: 400px;   
 }
 
 .tasks {
-    margin-top: 20px;
+    span {
+        font-size: 70%;
+    }
+}
+
+.chart {
+    height: calc(100% - 450px);
 }
 
 .mini-users-list {
@@ -58,6 +60,11 @@ app-card {
 }
 
 .column {
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
+}
+
+.tables-and-chart {
+    height: fit-content;
 }

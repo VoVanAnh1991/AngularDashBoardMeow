@@ -21,6 +21,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { FormsModule } from '@angular/forms';
 import { UserRoomsModule } from './modules/user-rooms/user-rooms.module';
 import { AdminListModule } from './modules/admin-list/admin-list.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AdminListModule } from './modules/admin-list/admin-list.module';
     TasksModule,
     FormsModule,
     AdminListModule,
+    DashboardModule,
     BrowserAnimationsModule,
     AngularFireAuthModule,
     AngularFirestoreModule,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { AdminTeamService } from 'src/app/services/admin-team.service';
 import { RoomsService } from 'src/app/services/rooms.service';
 import { UserRoomsService } from 'src/app/services/user-rooms.service';
@@ -16,18 +16,19 @@ export class ViewDashboardListComponent implements OnInit {
   totalUsers: number = 0;
   totalWeekUsers: number = 0;
   totalMonthUsers: number = 0;
-  rooms: number=0;
-  userFriends: number=0;
-  userRooms: number=0;
-  userKeepbox: number=0;
-
-
+  rooms: number = 0;
+  userFriends: number = 0;
+  userRooms: number = 0;
+  userKeepbox: number = 0;
+  userFriends_Admin: number = 0;
+  userFriends_Personal: number = 0;
+  
   constructor( 
     public usersService: UsersService,
     public userRoomsService: UserRoomsService,
     public roomsService: RoomsService,
     public adminTeamService: AdminTeamService,
-    private db: AngularFirestore,
+    public router: Router,
   ) {
   }
  
@@ -46,11 +47,18 @@ export class ViewDashboardListComponent implements OnInit {
     })
 
     this.roomsService.getRooms().subscribe(rooms => this.rooms = rooms.length)
-    this.userRoomsService.getQueryEqual('roomType','userFriends').subscribe(rooms => this.userFriends= rooms.length);
+    this.userRoomsService.getQueryEqual('roomType','userFriends').subscribe(rooms => {
+      this.userFriends= rooms.length;
+      this.userRoomsService.getCreatedByAdmin().subscribe(roomsFromAdmin => {
+        this.userFriends_Admin = roomsFromAdmin.length;
+        this.userFriends_Personal = this.userFriends - this.userFriends_Admin;
+      })
+    });
     this.userRoomsService.getQueryEqual('roomType','userRooms').subscribe(rooms => this.userRooms = rooms.length);
     this.userRoomsService.getQueryEqual('roomType','userKeepbox').subscribe(rooms => this.userKeepbox = rooms.length);
     
   }
+
 
   ngAfterContentChecked(){
     if (this.totalTasks && this.totalUsers && this.totalTasks) 
@@ -58,4 +66,5 @@ export class ViewDashboardListComponent implements OnInit {
       this.loading = false;
     }
   }
+
 }

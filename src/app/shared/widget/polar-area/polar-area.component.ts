@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
@@ -24,24 +24,53 @@ export type ChartOptions = {
 })
 export class PolarAreaComponent implements OnInit {;
   @Input() chartRooms: number;
-  @Input() chartUserFriends: number;
+  // @Input() chartUserFriends: number;
+  @Input() chartUserFriends_Admin: number;
+  @Input() chartUserFriends_Personal: number;
   @Input() chartUserRooms: number;
   @Input() chartUserKeepbox: number;
 
   @ViewChild("chart", { static: false }) chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> ;
+  
+  isReloaded: boolean = false;
+ 
+  @ViewChild('vc', { read: ViewContainerRef, static: true}) vc: ViewContainerRef;
+
+  @ViewChild("tpl", { read: TemplateRef, static: true}) tpl: TemplateRef<any>;
+
+  childViewRef: ViewRef;
+
+  ngAfterViewInit(){
+    this.childViewRef = this.tpl.createEmbeddedView(null);
+  }
+
+  insertChildView(){
+    this.vc.insert(this.childViewRef);
+  }
+
+  removeChildView(){
+    this.vc.detach();
+  }
+
+  reloadChildView(){
+    this.isReloaded = true; 
+    this.childViewRef = this.tpl.createEmbeddedView(null);
+    this.removeChildView();
+    this.insertChildView();
+  }
 
   constructor( 
   ) {
     this.chartOptions = {
-      series: [0,0,0,0],
+      series: [0, 0,0,0,0],
       chart: {
         type: "polarArea"
       },
-      labels: ["User Friends","User Rooms","Keep Box"]
+      labels: ["Public Rooms", "User Friends - Admin", "User Friends - Personal", "User Rooms", "Keep Box"]
       ,
       stroke: {
-        colors: ["indianred"]
+      colors: ["indianred"]
       },
       fill: {
         opacity: 0.8
@@ -61,11 +90,11 @@ export class PolarAreaComponent implements OnInit {;
       ]
     } 
   }
-  
-  
+
   ngOnInit () {
+    this.chart && this.chart.render()
   }
 
-  ngAfterContentChecked(){
+  ngAfterViewChecked(){
   }
 }

@@ -9,13 +9,18 @@ $text-header: #4527A0;
 $table-no: $dark-main;
 $table-th: white;
 
+.messages {
+    min-height: 100%;
+}
+
 .chat-box {
-    height: 400px;
+    min-height: 100%;
 }
 
 .messages-box {
-    height: 300px;
     overflow: scroll;
+    min-height: calc(100vh - 400px);
+    max-height: calc(100vh - 400px);
     border: 2px solid rgb(53, 80, 97);
     padding: 10px;
     border-radius: 5px;
@@ -32,9 +37,8 @@ $table-th: white;
     margin-top: 10px;
     
     .mat-form-field{
-        width: 80%;
+        width: calc(100% - 60px);
         height: 100px;
-        margin-left: 30px;
     }
 
     .mat-mini-fab {
