@@ -24,14 +24,6 @@ export class UserRoomsService {
     return this.db.doc('userRooms/'+roomId).update({roomUserIds: newRoomUserIds})
   }
   
-  update(user: any){
-    return this.db.collection("userRooms").doc(user.id).update(user);
-  }
-  
-  addRoom(id: string, message: any){
-    return this.db.collection("userRooms");
-  }
-  
   onDeleteUser(id: string){
     return this.db.collection("userRooms", ref => ref.where('roomUserIds','array-contains',id)
     .where('roomType','in',['userFriends','userKeepbox'])).snapshotChanges();
