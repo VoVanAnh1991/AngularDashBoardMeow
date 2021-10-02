@@ -77,8 +77,8 @@
                         <th mat-header-cell *matHeaderCellDef>User Id</th>
                         <td mat-cell *matCellDef="let element">
                             <div>{{element.id}}</div>
-                            <mat-icon *ngIf="elementId && onlineUsers?.includes(element.id)" color="warn">account_circle</mat-icon>
-                            <mat-icon *ngIf="elementId && !onlineUsers?.includes(element.id)">account_circle</mat-icon>
+                            <mat-icon *ngIf="onlineUsers?.includes(element.id)" color="warn">account_circle</mat-icon>
+                            <mat-icon *ngIf="!onlineUsers?.includes(element.id)">account_circle</mat-icon>
                         </td>
                     </ng-container>
 

@@ -42,20 +42,26 @@ export class UserRoomsService {
   }
 
   sendMessageToUser(userId: string, message: any){
-    this.db.doc('userRooms/AMIN'+userId).get().subscribe(result => 
+    this.db.doc('userRooms/ADMIN'+userId).get().subscribe(result => 
       result.data()? 
-        this.db.doc('userRooms/AMIN'+userId).update({
+        this.db.doc('userRooms/ADMIN'+userId).update({
           lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
         })
         : 
-        this.db.doc('userRooms/AMIN'+userId).set({
+        this.db.doc('userRooms/ADMIN'+userId).set({
           lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
           roomStr: JSON.stringify(["AdminTeam", userId].sort()),
           roomType: 'userFriends',
+          roomId: 'ADMIN'+userId,
           roomUserIds: ["AdminTeam", userId],
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         }) 
     );
-    this.db.collection('userRooms/AMIN'+userId+'/messages').add(message);
+    this.db.collection('userRooms/ADMIN'+userId+'/messages').add(message);
+    this.db.doc('users/'+userId+'/status/'+'ADMIN'+userId).set({
+      lastVisited: firebase.firestore.FieldValue.serverTimestamp(),
+      roomType: 'userFriends',
+      roomId: 'ADMIN'+userId,
+    });
   }
 }

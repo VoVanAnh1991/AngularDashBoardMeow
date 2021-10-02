@@ -27,6 +27,7 @@ export class RoomsService {
       .add({
         roomName: newRoomName,
         createdBy: adminEmail,
+        roomType: 'rooms',
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
       })
