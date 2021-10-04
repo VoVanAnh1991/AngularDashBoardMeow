@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 
 export class AuthService {
   email: string;
+  adminCode: string;
 
   constructor(
     public router: Router,
@@ -26,8 +27,10 @@ export class AuthService {
   }
 
   getAdminCode (): Observable<any> {
-    return this.afs.doc('adminTeam/adminManager').snapshotChanges();
+    return this.afs.doc('adminTeam/adminManager').get();
   }
+
+
 
   isLoggin (): boolean { 
     const user = JSON.parse(localStorage.getItem('adminDashboard'));
