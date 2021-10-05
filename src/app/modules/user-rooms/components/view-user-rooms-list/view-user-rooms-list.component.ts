@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { UserRoomsService } from 'src/app/services/user-rooms.service';
 import { UsersService } from 'src/app/services/users.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-view-user-rooms-list',
@@ -23,7 +24,7 @@ export class ViewUserRoomsListComponent implements OnInit {
   option: string;
   
   usernameList: any = {}
-  dataSource;
+  dataSource: any;
   displayedColumns: string[]=[
     "no", "roomId", "roomType", "roomName", "noOfUsers", "***", "date_created", "action"
   ];
@@ -33,7 +34,9 @@ export class ViewUserRoomsListComponent implements OnInit {
   deletingInfo: any;
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
-  
+
+  @ViewChild('TABLE', {static: true}) table: ElementRef;
+
   constructor(
     public userRoomsService: UserRoomsService,
     public usersService: UsersService,
@@ -53,11 +56,11 @@ export class ViewUserRoomsListComponent implements OnInit {
     
     alertSnackBar(mess: string): void {   
       this._snackBar.open(mess, null, {
-        duration: 3000,
+        duration: 2000,
         ...this.snackBarStyle
       });
     }
-
+    
     ngOnInit(): void {  
       this.userRoomsService.getAllUserRooms().subscribe((result)=>{
         this.list = result.map((item, index)=>{         
@@ -89,11 +92,41 @@ export class ViewUserRoomsListComponent implements OnInit {
         this.loading = false;
     })
   }
-
+  
   applyFilter(filterValue: string): void {
     filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
     this.deleting = false;
+  }
+
+  exportAsExcel()
+  {
+    let excelList = this.list.map(room =>  { 
+      let dummy = room;
+      delete dummy.roomStr;
+      delete dummy.warning;
+      return {
+        ...dummy,
+        lastChanged: room.lastChanged.toDate().toLocaleString(),
+        timestamp: room.timestamp.toDate().toLocaleString(),
+        roomMembers: room.roomMembers.toString(),
+        roomUserIds: room.roomUserIds.toString(),
+      }
+    })
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelList);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, "User's Rooms List");
+    XLSX.writeFile(wb, "User's Rooms List.xlsx");
+  }
+
+  exportFilterAsExcel()
+  {
+    const wsF: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wbF: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wbF, wsF, "User's Rooms List (Filtered)");
+    XLSX.writeFile(wbF, "User's Rooms List (Filtered).xlsx");
   }
 
   onDeleteUserRoom(id: string){

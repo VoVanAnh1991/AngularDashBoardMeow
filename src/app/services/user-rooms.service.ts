@@ -30,7 +30,12 @@ export class UserRoomsService {
   }
   
   delete(id: string){
-    return this.db.collection("userRooms").doc(id).delete();
+    this.db.collection('userRooms').doc(id).collection('messages').get().subscribe(messages => {
+      messages.forEach(message => {
+        this.db.doc('userRooms/'+id+'/messages/'+message.id).delete()
+        })
+      this.db.collection("userRooms").doc(id).delete();
+    });
   }
 
   sendMessageToUser(userId: string, message: any){
@@ -42,7 +47,7 @@ export class UserRoomsService {
         : 
         this.db.doc('userRooms/ADMIN'+userId).set({
           lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-          roomStr: JSON.stringify(["AdminTeam", userId].sort()),
+          roomStr: ["AdminTeam", userId].sort().toString(),
           roomType: 'userFriends',
           roomId: 'ADMIN'+userId,
           roomUserIds: ["AdminTeam", userId],

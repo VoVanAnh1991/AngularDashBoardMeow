@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     UsersRoutingModule,
     SharedModule,
+    FormsModule,
     MatSidenavModule,
     MatDividerModule,
     FlexLayoutModule,
@@ -25,7 +26,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
   ]
 })
 export class UsersModule { }

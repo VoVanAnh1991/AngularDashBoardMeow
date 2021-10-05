@@ -13,6 +13,16 @@
                 ><mat-icon>close</mat-icon></button>
             </mat-form-field>
             
+            <div *ngIf="!filter.value" fxFlex="120" fxLayoutAlign="center center" fxLayoutGap="120px">
+                <button mat-raised-button [ngStyle]="{color: 'white', backgroundColor: '#8D6E63'}"
+                (click)="exportAsExcel()">Export as Excel</button>
+            </div>
+
+            <div *ngIf="filter.value" fxFlex="120" fxLayoutAlign="center center" fxLayoutGap="120px">
+                <button mat-raised-button [ngStyle]="{color: 'white', backgroundColor: 'indianred'}"
+                (click)="exportFilterAsExcel()">Export as Excel</button>
+            </div>
+
             <mat-paginator fxFlex="120" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
         </div>
               
@@ -20,9 +30,9 @@
             <app-progress-bar></app-progress-bar>
         </div>
         
-        <div class="mat-elevation-z8" *ngIf="!loading">
-            <div fxFlex="120" >
-                <table mat-table [dataSource]="dataSource">
+        <div class="mat-elevation-z8" #TABLE>
+            <div fxFlex="120" *ngIf="!loading">
+                <table mat-table [dataSource]="dataSource" #table>
                     <ng-container matColumnDef="no">
                         <th mat-header-cell *matHeaderCellDef> # </th>
                         <td mat-cell *matCellDef="let element"> {{ element.no }} </td>

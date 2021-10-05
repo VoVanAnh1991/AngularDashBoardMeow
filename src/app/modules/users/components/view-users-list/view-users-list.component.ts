@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { UserRoomsService } from 'src/app/services/user-rooms.service';
 import { UsersService } from 'src/app/services/users.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-view-users-list',
@@ -38,13 +39,15 @@ export class ViewUsersListComponent implements OnInit {
   deleting: boolean = false;
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
-  
+
+  @ViewChild('TABLE', {static: true}) table: ElementRef;
+    
   constructor( 
     public usersService: UsersService,
     public userRoomsService: UserRoomsService,
     private _snackBar: MatSnackBar
-    ) { 
-      this.usersService.upadateOnlineUsers();
+  ) { 
+    this.usersService.upadateOnlineUsers();
   }
   
   ngOnInit(): void {
@@ -66,6 +69,34 @@ export class ViewUsersListComponent implements OnInit {
       this.loading = false;
     })    
   }
+  
+  exportAsExcel()
+  {
+    let excelList = this.list.map(user => {
+      let dummy = user;
+      delete dummy.password;
+      delete dummy.lastChanged;
+      return {
+        ...dummy,
+        timestamp: user.timestamp.toDate().toLocaleString(),
+      }
+    })
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelList);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, 'User List');
+    XLSX.writeFile(wb, 'User List.xlsx');
+  }
+
+  exportFilterAsExcel()
+  {
+    const wsF: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wbF: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wbF, wsF, 'User List (Filtered');
+    XLSX.writeFile(wbF, 'User List (Filtered).xlsx');
+  }
+
 
   applyFilter(filterValue: string): void {
     filterValue.toLowerCase();
