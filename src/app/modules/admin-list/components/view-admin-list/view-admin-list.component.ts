@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatTableDataSource } from '@angular/material';
 import { AdminTeamService } from 'src/app/services/admin-team.service';
+import { AuthService } from 'src/app/services/auth.service';
 import * as XLSX from 'xlsx';
-
 
 @Component({
   selector: 'app-view-admin-list',
@@ -18,28 +18,30 @@ export class ViewAdminListComponent implements OnInit {
     verticalPosition: this.verticalPosition,
     panelClass: ['my-snack-bar'],
   }
-
+  isRemovedAdmins: boolean = false;
   loading: boolean = true;
   list : Array <any> = [];
   onlineUsers: any;
   dataSource: any;
+  adminCode: Array<string>;
   displayedColumns: string[]=[
-    "no", "avatar", "id", "username", "email", "last_actived"
+    "no", "avatar", "id", "username", "email", "last_actived", "action"
   ];
   xlsxColumns: string[]=[
     "no", "avatar", "id", "username", "email", "last_actived"
   ];
   
-  editing: boolean = false;
-  editingId: string;
+  allAdmins: Array<any>;
+  deleting: boolean = false;
+  deletingId: string;
+  recorvering: any;
+  recorveringId: string;
   
   newUserForm = new FormGroup({
     username: new FormControl('', [ Validators.required]),
     password: new FormControl('', [ Validators.required]),
   });
-
-  adding: boolean = false;
-  deleting: boolean = false;
+  
   pageSizeOptions: number;
   
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
@@ -74,23 +76,35 @@ export class ViewAdminListComponent implements OnInit {
 
   constructor( 
     public adminTeamService: AdminTeamService,
+    public authService: AuthService,
+    private _snackBar: MatSnackBar,
     ) { 
-      
+    this.adminTeamService.getAdminCode().subscribe(result => {
+      let info: any = {...result.payload.data() as {}}
+      this.adminCode = info.adminCode;
+    });
   }
 
   ngOnInit(): void {
     this.adminTeamService.getAllAdmins().subscribe((result)=>{
-      this.list = result.map((item, index)=>{
+      this.allAdmins = result.map(item=>{
         return {
-          no: index + 1 , 
           id: item.payload.doc.id,
           ...(item.payload.doc.data() as {}),
         }
       })
+      this.list = this.allAdmins.filter(admin => this.isRemovedAdmins? (admin.isRemoved === true) : (admin.isRemoved !== true));
+      this.list.map((admin,index) => this.list[index].no = index + 1);
       this.dataSource = new MatTableDataSource<any>(this.list)
       this.dataSource.paginator = this.paginator;
       this.loading = false;
     })    
+  }
+
+  changeList(){
+    this.list = this.allAdmins.filter(admin => this.isRemovedAdmins? (admin.isRemoved === true) : (admin.isRemoved !== true));
+    this.list.map((admin,index) => this.list[index].no = index + 1);
+    this.dataSource = new MatTableDataSource<any>(this.list)
   }
 
   applyFilter(filterValue: string): void {
@@ -98,5 +112,45 @@ export class ViewAdminListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  onChangeAdminCode(): void {
+    let newCode = prompt("Enter new Admin Code");
+    newCode && confirm("Change amdin code to \""+newCode+"\" ?") &&
+    this.authService.changeAdminCode(newCode)
+  }
+
+  onDeleteAdmin(id: string){
+    this.deleting = true;
+    this.deletingId = id;
+    this.deleteUserRoomSnackBar(`Remove admin " ${id} "`, 'Delete', id);
+  }
   
+  deleteUserRoomSnackBar(mess: string, action: string, actionInfo: string): void {   
+    let snackBarRef = this._snackBar.open(mess, action, {
+      duration: 3000,
+      ...this.snackBarStyle,
+    });
+    snackBarRef.onAction().subscribe(() => {
+      this.adminTeamService.deleteAdmin(actionInfo);
+    });
+    snackBarRef.afterDismissed().subscribe((info) => {
+      this.deleting = false;
+      this.deletingId = null;
+      info.dismissedByAction? 
+        this.alertSnackBar('Admin is removed.')
+        : this.alertSnackBar('Cancel removing Admin.')
+    })
+  }
+
+  onRecoverAdmin(id: string){
+    this.recorveringId = id;
+    this.adminTeamService.recoverAdmin(id);
+    this.isRemovedAdmins = true;
+  }
+
+  alertSnackBar(mess: string): void {   
+    this._snackBar.open(mess, null, {
+      duration: 2000,
+      ...this.snackBarStyle
+    });
+  }
 }

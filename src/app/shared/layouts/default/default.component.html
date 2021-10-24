@@ -1,12 +1,19 @@
-<app-header (toggleSidebar)="sidebarToggle()"></app-header>
+<ng-container *ngIf="authService.isRemoved != true">
+    <app-header (toggleSidebar)="sidebarToggle()"></app-header>
 
-<mat-drawer-container>
-    <mat-drawer *ngIf="sidebarOpen" mode="side" opened="sidebarOpen">
-        <app-sidebar></app-sidebar>
-    </mat-drawer>
-    <mat-drawer-content class="main-section">
-        <router-outlet class="main-section"></router-outlet>
-    </mat-drawer-content>
-</mat-drawer-container>
+    <mat-drawer-container>
+        <mat-drawer *ngIf="sidebarOpen" mode="side" opened="sidebarOpen">
+            <app-sidebar></app-sidebar>
+        </mat-drawer>
+        <mat-drawer-content class="main-section">
+            <router-outlet class="main-section"></router-outlet>
+        </mat-drawer-content>
+    </mat-drawer-container>
 
-<app-footer></app-footer>
+    <app-footer></app-footer>
+</ng-container>
+<ng-container *ngIf="authService.isRemoved == true">
+    <div class="a">
+        <app-being-removed></app-being-removed>
+    </div>
+</ng-container>

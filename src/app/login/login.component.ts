@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
                 private router: Router,
     ) { 
       this.authService.getAdminCode().subscribe( (value) => {
-        this.adminCode = value.data().adminCodes;
+        this.adminCode = value.data().adminCode;
         if (this.adminCode.length == 0 )
           this.validCode = true;
         else

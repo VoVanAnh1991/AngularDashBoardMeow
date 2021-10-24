@@ -8,32 +8,56 @@ import firebase from 'firebase';
 export class AdminTeamService {
   adminInfo: any;
 
-  constructor( public db: AngularFirestore ) { }
+  constructor( public db: AngularFirestore ) {
+  }
 
   getCurrentAdmin() {
     let currentAdmin: any;
     currentAdmin = JSON.parse(localStorage.getItem('adminDashboard'));
-    this.adminInfo = {
-      username : 
-        currentAdmin.displayName? currentAdmin.displayName
-        : currentAdmin.email.slice(0, currentAdmin.email.search('@')),
-      email: currentAdmin.email,
-      avatar: currentAdmin.photoURL,
+    if (currentAdmin) {
+        this.adminInfo = {
+        username : 
+          currentAdmin.displayName? currentAdmin.displayName
+          : currentAdmin.email.slice(0, currentAdmin.email.search('@')),
+        email: currentAdmin.email,
+        avatar: currentAdmin.photoURL,
+        uid: currentAdmin.uid,
+      }
+      this.db.doc('adminTeam/adminManager/admins/'+this.adminInfo.email)
+      .update({
+        ...this.adminInfo,
+        lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
+      })
     }
-    this.db.doc('adminTeam/adminManager/admins/'+this.adminInfo.email)
-    .set({
-      ...this.adminInfo,
-      lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-    })
     return this.adminInfo
   }
   
+  getAdminCode() {
+    return this.db.doc('adminTeam/adminManager').snapshotChanges();
+  }
+
   getAllAdmins(){
     return this.db.collection('adminTeam/adminManager/admins/').snapshotChanges();
   }
 
   getOneAdmin(id: string){
     return this.db.doc('adminTeam/adminManager/admins/'+id).get();
+  }
+
+  getDeletedAmins(){
+    return this.db.doc('adminTeam/adminManager').get();
+  }
+
+  deleteAdmin(id: string) {
+    this.getDeletedAmins().subscribe(info => {
+      this.db.doc('adminTeam/adminManager/admins/'+id).update({isRemoved: true});
+    });
+  }
+
+  recoverAdmin (id: string) {
+    this.getDeletedAmins().subscribe(info => {
+      this.db.doc('adminTeam/adminManager/admins/'+id).update({isRemoved: 'recovered'});
+    });
   }
 
   getCompletedTasks(){

@@ -24,6 +24,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatCheckboxModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatProgressBarModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 import { ProgressBarComponent } from './widget/progress-bar/progress-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BeingRemovedComponent } from './components/being-removed/being-removed.component';
 
 @NgModule ({
     declarations: [
@@ -36,6 +37,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ColumnComponent,
         PolarAreaComponent,
         ProgressBarComponent,
+        BeingRemovedComponent,
     ],
     imports: [
         CommonModule,
@@ -72,6 +74,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ColumnComponent,
         PolarAreaComponent,
         ProgressBarComponent,
+        BeingRemovedComponent,
     ]
 })
 

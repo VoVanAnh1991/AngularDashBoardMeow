@@ -138,7 +138,7 @@ export class ViewUserRoomsListComponent implements OnInit {
   
   deleteUserRoomSnackBar(mess: string, action: string, actionInfo: string): void {   
     let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 5000,
+      duration: 3000,
       ...this.snackBarStyle,
     });
     snackBarRef.onAction().subscribe(() => {
@@ -169,7 +169,7 @@ export class ViewUserRoomsListComponent implements OnInit {
   
   deleteRoomMemberSnackBar(mess: string, action: string, actionInfo: any): void {   
     let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 5000,
+      duration: 3000,
       ...this.snackBarStyle,
     });
     snackBarRef.onAction().subscribe(() => {

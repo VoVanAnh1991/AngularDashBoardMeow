@@ -4,28 +4,35 @@ table {
 
 .ongoing-tasks {
     background: #E28D4F;
-    border: 10px solid rgba(230, 189, 160, 0.7);
+    border: 9px solid rgba(230, 189, 160, 0.7);
     box-sizing: border-box;
     border-radius: 20px;   
 }
 
 .month-users {
     background: #D95E5E;
-    border: 10px solid rgba(232, 173, 173, 0.7);
+    border: 9px solid rgba(232, 173, 173, 0.7);
     box-sizing: border-box;
     border-radius: 20px;
 }
 
 .total-users {
     background: #6EA34D;
-    border: 10px solid rgba(202, 227, 186, 0.7);
+    border: 9px solid rgba(202, 227, 186, 0.7);
     box-sizing: border-box;
     border-radius: 20px;    
 }
 
+.total-rooms {
+    background: cadetblue;
+    border: 9px solid rgba(rgb(182, 230, 231), 0.7);
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
 .mat-card {
     color: white;
-    font-size: 60px;
+    font-size: 59px;
     font-family: Bookman, Tahoma, Verdana;
     font-weight: bolder;
     height: fit-content;
@@ -42,12 +49,6 @@ table {
     min-height: calc(100% - 400px);
     align-self: flex-end;
     margin-bottom: 30px;
-}
-
-.tasks {
-    span {
-        font-size: 70%;
-    }
 }
 
 .chart {
@@ -67,4 +68,8 @@ table {
 
 .tables-and-chart {
     height: fit-content;
+}
+
+h1 span {
+    font-size: 70%;
 }

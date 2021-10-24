@@ -85,7 +85,7 @@ export class OptionShowInfoComponent implements OnInit {
 
   onDeleteRoomSnackBar(mess: string, action: string, actionInfo: any): void {   
     let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 5000,
+      duration: 3000,
       ...this.snackBarStyle,
     });
     snackBarRef.onAction().subscribe(() => {
@@ -101,7 +101,7 @@ export class OptionShowInfoComponent implements OnInit {
 
   alertSnackBar(mess: string): void {   
     this._snackBar.open(mess, null, {
-      duration: 3000,
+      duration: 2000,
       ...this.snackBarStyle
     });
   }

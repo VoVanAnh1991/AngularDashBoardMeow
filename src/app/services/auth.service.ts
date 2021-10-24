@@ -11,15 +11,15 @@ import { Observable } from 'rxjs';
 
 export class AuthService {
   email: string;
+  isRemoved: boolean;
   adminCode: string;
 
   constructor(
     public router: Router,
     public afAuth: AngularFireAuth ,
-    private afs: AngularFirestore ,
-
+    private db: AngularFirestore ,
   ) { this.afAuth.authState.subscribe((user)=>{
-      if(user && user.emailVerified == true){
+    if(user && user.emailVerified == true){
         localStorage.setItem('adminDashboard', JSON.stringify(user));
         this.router.navigate([''])
       }
@@ -27,14 +27,25 @@ export class AuthService {
   }
 
   getAdminCode (): Observable<any> {
-    return this.afs.doc('adminTeam/adminManager').get();
+    return this.db.doc('adminTeam/adminManager').get();
   }
 
-
+  changeAdminCode (code: string) {
+    this.db.doc('adminTeam/adminManager').update({adminCode: [code]});
+  }
 
   isLoggin (): boolean { 
     const user = JSON.parse(localStorage.getItem('adminDashboard'));
-    return user !== null ? true : false
+      user &&
+        this.db.doc('adminTeam/adminManager/admins/'+user.email).snapshotChanges()
+        .subscribe((info: any) => {
+          this.isRemoved = info.payload.data().isRemoved;
+            if ( this.isRemoved == true){
+                localStorage.removeItem('adminDashboard'); 
+                this.afAuth.signOut();
+            }
+        })
+    return user !== null? true : false
   }
 
   authSignIn(provider: any){

@@ -118,7 +118,7 @@ export class ViewUsersListComponent implements OnInit {
 
   deleteUserSnackBar(mess: string, action: string, actionInfo: string): void {   
     let snackBarRef = this._snackBar.open(mess, action, {
-      duration: 8000,
+      duration: 4000,
       ...this.snackBarStyle,
     });
     snackBarRef.onAction().subscribe(() => {
@@ -174,7 +174,7 @@ export class ViewUsersListComponent implements OnInit {
 
   alertSnackBar(mess: string): void {   
     this._snackBar.open(mess, null, {
-      duration: 3000,
+      duration: 2000,
       ...this.snackBarStyle
     });
   }

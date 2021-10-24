@@ -85,7 +85,7 @@ export class OptionShowMessagesComponent implements OnInit {
 
   alertSnackBar(mess: string): void {   
     this._snackBar.open(mess, null, {
-      duration: 3000,
+      duration: 2000,
       ...this.snackBarStyle
     });
   }

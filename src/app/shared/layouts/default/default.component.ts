@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-default',
@@ -8,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class DefaultComponent implements OnInit {
   sidebarOpen = true;
   
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    public router: Router,
+  ) {
+  }
 
   ngOnInit(): void {
   }

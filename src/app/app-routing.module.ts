@@ -55,7 +55,7 @@ const routes: Routes = [
   { path:'login', component: LoginComponent},
   { path:'forgot-password', component: ForgotPasswordComponent},
   { path:'register', component: SignUpComponent},
-  { path:'verify-email', component: VerifyEmailComponent}
+  { path:'verify-email', component: VerifyEmailComponent},
 ];
 
 @NgModule({
